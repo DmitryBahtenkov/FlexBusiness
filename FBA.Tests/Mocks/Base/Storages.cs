@@ -1,12 +1,24 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using FBA.Auth.Contract.Models;
 using FBA.Repository.Contract.Documents;
+using FBA.Tests.Data;
 using FBA.Tests.Exceptions;
 
 namespace FBA.Tests.Mocks.Base
 {
     public class Storages
     {
+        public static List<UserDocument> Users { get;  }
+
+        static Storages()
+        {
+            Users = new List<UserDocument>
+            {
+                TestUsers.ValidUser
+            };
+        }
+
         public static List<TDocument> GetStorage<TDocument>() where TDocument : IDocument
         {
             var props = typeof(Storages).GetProperties();
