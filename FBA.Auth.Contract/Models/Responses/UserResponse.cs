@@ -1,6 +1,6 @@
 ﻿namespace FBA.Auth.Contract.Models.Responses
 {
-    public class CurrentUserResponse
+    public class UserResponse
     {
         public string Id { get; set; }
         public string SurName { get; set; }

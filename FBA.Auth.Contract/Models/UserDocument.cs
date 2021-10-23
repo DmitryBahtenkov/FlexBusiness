@@ -12,5 +12,9 @@ namespace FBA.Auth.Contract.Models
         public string Login { get; set; }
         public HashedPassword Password { get; set; }
         public string Token { get; set; }
+        /// <summary>
+        /// При входе установить пароль
+        /// </summary>
+        public bool IsNewUser { get; set; }
     }
 }

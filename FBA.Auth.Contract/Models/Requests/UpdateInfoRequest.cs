@@ -1,19 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using FBA.CrossCutting.Contract.Attributes;
 
 namespace FBA.Auth.Contract.Models.Requests
 {
-    public record CreateUserRequest
+    public record UpdateInfoRequest
     {
         [Required(ErrorMessage = "Введите фамилию")]
         public string SurName { get; set; }
         [Required(ErrorMessage = "Введите имя")]
         public string Name { get; set; }
         public string Patronymic { get; set; }
-        [Required(ErrorMessage = "Введите логин")]
-        public string Login { get; set; }
-        [RequiredWhen(nameof(ShouldUserPassword), false)]
-        public string Password { get; set; }
-        public string ShouldUserPassword { get; set; }
     }
 }
