@@ -12,8 +12,8 @@ namespace FBA.Auth.Contract.Models.Requests
         public string Patronymic { get; set; }
         [Required(ErrorMessage = "Введите логин")]
         public string Login { get; set; }
-        [RequiredWhen(nameof(ShouldUserPassword), false)]
+        [RequiredWhen(nameof(IsNewUser), false)]
         public string Password { get; set; }
-        public string ShouldUserPassword { get; set; }
+        public bool IsNewUser { get; set; }
     }
 }
