@@ -18,6 +18,7 @@ namespace FBA.DependencyInjection
             collection.AddScoped<IUserWriteOperations, UserWriteOperations>();
             collection.AddScoped<IUserQueryOperations, UserQueryOperations>();
             collection.AddScoped<ILoginService, LoginService>();
+            collection.AddScoped<IUserService, UserService>();
 
             collection.AddScoped<ILogger, LoggerService>();
 

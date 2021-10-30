@@ -47,10 +47,10 @@ namespace FBA.Tests.UserTests
         {
             var request = new CreateUserRequest
             {
-                Name = "Ирина",
-                SurName = "Цикозина",
-                Patronymic = "Евгеньевна",
-                Login = "dinozavrik35",
+                Name = "---",
+                SurName = "---",
+                Patronymic = "---",
+                Login = "---",
                 IsNewUser = true
             };
 

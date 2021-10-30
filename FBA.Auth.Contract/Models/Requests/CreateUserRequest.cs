@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using FBA.Auth.Contract.Roles;
 using FBA.CrossCutting.Contract.Attributes;
 
 namespace FBA.Auth.Contract.Models.Requests
@@ -15,5 +16,7 @@ namespace FBA.Auth.Contract.Models.Requests
         [RequiredWhen(nameof(IsNewUser), false)]
         public string Password { get; set; }
         public bool IsNewUser { get; set; }
+
+        public string Role { get; set; } = RoleTags.Default;
     }
 }

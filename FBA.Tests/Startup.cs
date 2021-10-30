@@ -13,6 +13,7 @@ namespace FBA.Tests
             services.AddScoped<IUserQueryOperations, UserQueryOperationsMock>();
             services.AddScoped<IUserWriteOperations, UserWriteOperationsMock>();
             services.AddScoped<ILoginService, LoginService>();
+            services.AddScoped<IUserService, UserService>();
         }
     }
 }
