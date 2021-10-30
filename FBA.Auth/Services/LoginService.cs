@@ -27,6 +27,8 @@ namespace FBA.Auth.Services
             _userQueryOperations = userQueryOperations;
         }
 
+        #region Login
+
         public async Task<UserResponse> Login(LoginRequest request)
         {
             var user = await ValidateLogin(request);
@@ -100,9 +102,24 @@ namespace FBA.Auth.Services
             };
         }
 
-        public async Task Logout()
+        #endregion
+
+        #region Logout
+
+        public async Task Logout(string id)
         {
-            throw new System.NotImplementedException();
+            var user = await _userQueryOperations.GetById(id);
+            
+            if (user is not null)
+            {
+                await _userWriteOperations.ClearToken(id);
+            }
+            else
+            {
+                throw new BusinessException("Пользователь не существует");
+            }
         }
+
+        #endregion
     }
 }

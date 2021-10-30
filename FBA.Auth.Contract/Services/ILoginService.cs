@@ -7,6 +7,6 @@ namespace FBA.Auth.Contract.Services
     public interface ILoginService
     {
         public Task<UserResponse> Login(LoginRequest request);
-        public Task Logout();
+        public Task Logout(string id);
     }
 }

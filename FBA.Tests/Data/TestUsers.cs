@@ -15,5 +15,16 @@ namespace FBA.Tests.Data
             Password = PasswordHelper.GeneratePassword("string"),
             Role = RoleTags.Default
         };
+        
+        public static UserDocument UserForLogout => new()
+        {
+            Id = "validuserid2",
+            Login = "Michaelisch'e",
+            Name = "Gay",
+            SurName = "Sapogov",
+            Password = PasswordHelper.GeneratePassword("string"),
+            Role = RoleTags.Default,
+            Token = "gsyhdfjisdhgiushdluigjhodfisughouih4e78yf4984otgiuhiuhgoui"
+        };
     }
 }

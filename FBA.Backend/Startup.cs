@@ -1,4 +1,6 @@
 using System;
+using FBA.Backend.Attributes;
+using FBA.Backend.Middlewares;
 using FBA.CrossCutting.Contract.Global;
 using FBA.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -28,6 +30,13 @@ namespace FBA.Backend
             {
                 options.SuppressModelStateInvalidFilter = true;
             });
+            
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
+            });
+            
+            services.AddMvc(options => options.Filters.Add<ValidateModelAttribute>());
             
             services.AddControllers();
             
@@ -72,6 +81,18 @@ namespace FBA.Backend
                     } 
                 });
             });
+
+            services.AddLogging();
+            
+            /*services.AddCors(options =>
+            {
+                options.AddPolicy(
+                    "CorsPolicy",
+                    builder => builder.WithOrigins("*")
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials());
+            });*/
             
             ServicesBuilder.Build(services);
         }
@@ -81,12 +102,20 @@ namespace FBA.Backend
             app.UseDeveloperExceptionPage();
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "FBA.Backend v1"));
-            
-            app.UseHttpsRedirection();
 
+            app.UseMiddleware<SecurityHeaderMiddleware>();
+            app.UseMiddleware<ExceptionMiddleware>();
+            
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
+            
+            app.UseCors(x => x
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .SetIsOriginAllowed(_ => true)
+                .AllowCredentials()); 
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }

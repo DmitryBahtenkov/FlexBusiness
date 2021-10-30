@@ -15,7 +15,8 @@ namespace FBA.Tests.Mocks.Base
         {
             Users = new List<UserDocument>
             {
-                TestUsers.ValidUser
+                TestUsers.ValidUser,
+                TestUsers.UserForLogout
             };
         }
 

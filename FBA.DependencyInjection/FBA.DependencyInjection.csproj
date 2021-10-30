@@ -10,6 +10,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\FBA.Auth\FBA.Auth.csproj" />
+      <ProjectReference Include="..\FBA.CrossCutting\FBA.CrossCutting.csproj" />
     </ItemGroup>
 
 </Project>
