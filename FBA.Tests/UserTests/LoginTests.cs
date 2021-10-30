@@ -1,7 +1,9 @@
 ﻿using System.Threading.Tasks;
 using FBA.Auth.Contract.Models.Requests;
 using FBA.Auth.Contract.Models.Responses;
+using FBA.Auth.Contract.Roles;
 using FBA.Auth.Contract.Services;
+using FBA.Tests.Data;
 using Xunit;
 
 namespace FBA.Tests.UserTests
@@ -21,7 +23,7 @@ namespace FBA.Tests.UserTests
             //arrange
             var request = new LoginRequest
             {
-                Login = "Michael",
+                Login = TestUsers.ValidUser.Login,
                 Password = "string"
             };
             
@@ -32,6 +34,7 @@ namespace FBA.Tests.UserTests
             Assert.NotNull(response);
             Assert.NotEmpty(response.Token);
             Assert.Equal(request.Login, response.Login);
+            Assert.Equal(RoleTags.Default, response.Role);
         }
     }
 }

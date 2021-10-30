@@ -1,4 +1,6 @@
 ﻿using FBA.Auth.Contract.Models;
+using FBA.Auth.Contract.Roles;
+using FBA.Auth.Helpers;
 
 namespace FBA.Tests.Data
 {
@@ -10,12 +12,8 @@ namespace FBA.Tests.Data
             Login = "Michael",
             Name = "Michael",
             SurName = "Sapogov",
-            Password = new HashedPassword()
-            {
-                // string
-                Salt = "X8RZbNBvfuGbPfHMvZBJvg==",
-                Hash = "TRwZMA3N+qlX1ogdi8sgDg=="
-            }
+            Password = PasswordHelper.GeneratePassword("string"),
+            Role = RoleTags.Default
         };
     }
 }

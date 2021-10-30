@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using FBA.Repository.Contract.Documents;
 using FBA.Repository.Contract.Operations;
+using MongoDB.Driver;
 
 namespace FBA.Repository.Operations
 {
@@ -31,6 +32,18 @@ namespace FBA.Repository.Operations
             }
             
             return await Collection.FindOneAndDeleteAsync<TDocument>(F.Eq(x => x.Id, id));
+        }
+
+        protected async Task<TDocument> UpdateOne(FilterDefinition<TDocument> filter,
+            UpdateDefinition<TDocument> update)
+        {
+            return await Collection.FindOneAndUpdateAsync<TDocument>(filter, update);
+        }
+        
+        protected async Task UpdateMany(FilterDefinition<TDocument> filter,
+            UpdateDefinition<TDocument> update)
+        {
+            await Collection.UpdateManyAsync(filter, update);
         }
     }
 }

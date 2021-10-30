@@ -17,6 +17,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\FBA.CrossCutting.Contract\FBA.CrossCutting.Contract.csproj" />
+      <ProjectReference Include="..\FBA.DependencyInjection\FBA.DependencyInjection.csproj" />
     </ItemGroup>
 
 </Project>

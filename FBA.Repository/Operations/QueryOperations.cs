@@ -6,7 +6,7 @@ using MongoDB.Driver;
 
 namespace FBA.Repository.Operations
 {
-    public class QueryOperations<TDocument> : BaseOperations<TDocument>, IQueryOperations<TDocument> where TDocument : IDocument
+    public abstract class QueryOperations<TDocument> : BaseOperations<TDocument>, IQueryOperations<TDocument> where TDocument : IDocument
     {
         public async Task<IEnumerable<TDocument>> GetAll(bool archive = false)
         {

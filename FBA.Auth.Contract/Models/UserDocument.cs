@@ -16,5 +16,6 @@ namespace FBA.Auth.Contract.Models
         /// При входе установить пароль
         /// </summary>
         public bool IsNewUser { get; set; }
+        public string Role { get; set; }
     }
 }

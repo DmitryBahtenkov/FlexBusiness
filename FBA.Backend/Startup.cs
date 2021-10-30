@@ -1,5 +1,6 @@
 using System;
 using FBA.CrossCutting.Contract.Global;
+using FBA.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -71,6 +72,8 @@ namespace FBA.Backend
                     } 
                 });
             });
+            
+            ServicesBuilder.Build(services);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
