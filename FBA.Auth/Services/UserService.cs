@@ -1,8 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using FBA.Auth.Contract.Models;
 using FBA.Auth.Contract.Models.Requests;
 using FBA.Auth.Contract.Models.Responses;
 using FBA.Auth.Contract.Operations;
+using FBA.Auth.Contract.Roles;
 using FBA.Auth.Contract.Services;
 using FBA.Auth.Helpers;
 using FBA.CrossCutting.Contract.Exceptions;
@@ -48,6 +50,11 @@ namespace FBA.Auth.Services
 
         private async Task ValidateRequest(CreateUserRequest request)
         {
+            if (!RoleTags.GetAll().Contains(request.Role))
+            {
+                throw new BusinessException("Такой роли не существует");
+            }
+            
             var user = await _userQueryOperations.ByLogin(request.Login);
             if (user is not null)
             {

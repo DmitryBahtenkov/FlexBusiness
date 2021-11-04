@@ -2,6 +2,7 @@
 using FBA.Auth.Contract.Models.Requests;
 using FBA.Auth.Contract.Operations;
 using FBA.Auth.Contract.Services;
+using FBA.CrossCutting.Contract.Exceptions;
 using Xunit;
 
 namespace FBA.Tests.UserTests
@@ -64,6 +65,22 @@ namespace FBA.Tests.UserTests
             var user = await _userQueryOperations.GetById(response.Id);
             Assert.NotNull(user);
             Assert.Null(user.Password);
+        }
+        
+        [Fact(DisplayName = "Проверка создания пользователя с некорректной ролью")]
+        public async Task CreateUserWithInvalidRoleTest()
+        {
+            var request = new CreateUserRequest
+            {
+                Name = "aaa",
+                SurName = "aaa",
+                Patronymic = "aaaa",
+                Login = "aaaaa",
+                IsNewUser = true,
+                Role = "aaaa"
+            };
+
+            await Assert.ThrowsAsync<BusinessException>(async () => await _userService.CreateUser(request));
         }
     }
 }

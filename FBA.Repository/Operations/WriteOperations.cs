@@ -37,7 +37,13 @@ namespace FBA.Repository.Operations
         protected async Task<TDocument> UpdateOne(FilterDefinition<TDocument> filter,
             UpdateDefinition<TDocument> update)
         {
-            return await Collection.FindOneAndUpdateAsync<TDocument>(filter, update);
+            var result = await Collection.UpdateOneAsync(filter, update);
+            if (result.IsAcknowledged)
+            {
+                return await (await Collection.FindAsync(filter)).FirstOrDefaultAsync();
+            }
+
+            return default;
         }
         
         protected async Task UpdateMany(FilterDefinition<TDocument> filter,
