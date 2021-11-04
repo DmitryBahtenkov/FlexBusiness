@@ -124,5 +124,22 @@ namespace FBA.Tests.UserTests
         }
 
         #endregion
+
+        #region Delete
+
+        [Fact(DisplayName = "Удаление существующего пользователя")]
+        public async Task DeleteValidUser()
+        {
+            var id = TestUsers.UserForUpdate.Id;
+
+            await _userService.DeleteUser(id);
+
+            var user = await _userQueryOperations.GetArchived(id);
+            
+            Assert.NotNull(user);
+            Assert.True(user.IsArchived);
+        }
+
+        #endregion
     }
 }

@@ -10,5 +10,7 @@ namespace FBA.Repository.Contract.Operations
         public Task<TDocument> GetById(string id);
         public Task<IEnumerable<TDocument>> GetByIds(params string[] ids);
         public Task<bool> ExistById(string id);
+
+        public Task<TDocument> GetArchived(string id);
     }
 }

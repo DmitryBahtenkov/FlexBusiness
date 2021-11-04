@@ -11,6 +11,7 @@ namespace FBA.Backend.Controllers
 {
     [Route("api/v1/user")]
     [ApiController]
+    [Authorize(Roles = RoleTags.Admin)]
     public class UserController
     {
         private readonly IUserService _userService;
@@ -20,14 +21,16 @@ namespace FBA.Backend.Controllers
             _userService = userService;
         }
 
-        [Authorize(Roles = RoleTags.Admin)]
         [HttpPost]
         public async Task<UserResponse> CreateUser([FromBody] CreateUserRequest request)
             => await _userService.CreateUser(request);
 
-        [Authorize]
         [HttpPut("{id}")]
         public async Task<UserResponse> UpdateUser(string id, [FromBody] UpdateInfoRequest request)
             => await _userService.UpdateUser(id, request);
+        
+        [HttpDelete("{id}")]
+        public async Task<UserResponse> DeleteUser(string id)
+            => await _userService.DeleteUser(id);
     }
 }

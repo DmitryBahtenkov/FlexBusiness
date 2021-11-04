@@ -30,7 +30,12 @@ namespace FBA.Tests.Mocks.Base
         {
             return Task.FromResult(Storage.Count(x=>x.Id == id) > 0);
         }
-        
+
+        public Task<TDocument> GetArchived(string id)
+        {
+            return Task.FromResult(GetOne(x=>x.Id == id, true));
+        }
+
         protected TDocument GetOne(Func<TDocument, bool> predicate, bool archive = false)
         {
             return Storage.FirstOrDefault(x=>predicate(x) && x.IsArchived == archive);

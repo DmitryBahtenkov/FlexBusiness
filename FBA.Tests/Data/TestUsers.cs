@@ -39,6 +39,17 @@ namespace FBA.Tests.Data
             Role = RoleTags.Default,
             Token = "gsyhdfjisdhgiushdluigjhodfisughouih4e78yf4984otgiuhiuhgoui"
         };
+        
+        public static UserDocument UserForDelete => new()
+        {
+            Id = "validuserid4",
+            Login = "Michaelisch'e",
+            Name = "Pidor",
+            SurName = "Sapogov",
+            Password = PasswordHelper.GeneratePassword("string"),
+            Role = RoleTags.Default,
+            Token = "gsyhdfjisdhgiushdluigjhodfisughouih4e78yf4984otgiuhiuhgoui"
+        };
 
         public static IEnumerable<UserDocument> GetAllDocuments()
         {

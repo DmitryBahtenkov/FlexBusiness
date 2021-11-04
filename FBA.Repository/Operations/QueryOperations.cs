@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using FBA.Repository.Contract.Documents;
 using FBA.Repository.Contract.Operations;
+using FBA.Repository.Extensions;
 using MongoDB.Driver;
 
 namespace FBA.Repository.Operations
@@ -26,6 +27,11 @@ namespace FBA.Repository.Operations
         public async Task<bool> ExistById(string id)
         {
             return await Collection.CountDocumentsAsync(F.Eq(x => x.Id, id)) > 0;
+        }
+
+        public async Task<TDocument> GetArchived(string id)
+        {
+            return await GetOne(F.ById(id), true);
         }
 
         /// <summary>

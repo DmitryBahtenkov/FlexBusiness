@@ -71,7 +71,9 @@ namespace FBA.Auth.Services
 
         public async Task<UserResponse> DeleteUser(string userId)
         {
-            throw new System.NotImplementedException();
+            var document = await _userWriteOperations.Delete(userId);
+            
+            return _mapper.FromDocument(document);
         }
     }
 }
