@@ -7,9 +7,7 @@ namespace FBA.Auth.Contract.Services
 {
     public interface ICurrentUserService
     {
-        public UserDocument CurrentUser { get; }
 
-        [assembly:InternalsVisibleTo("FBA.Tests")]
-        internal void Init(UserDocument document);
+        public UserDocument Get();
     }
 }
