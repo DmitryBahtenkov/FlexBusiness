@@ -13,11 +13,8 @@ namespace FBA.Tests.Mocks.Base
 
         static Storages()
         {
-            Users = new List<UserDocument>
-            {
-                TestUsers.ValidUser,
-                TestUsers.UserForLogout
-            };
+            Users = new List<UserDocument>();
+            Users.AddRange(TestUsers.GetAllDocuments());
         }
 
         public static List<TDocument> GetStorage<TDocument>() where TDocument : IDocument

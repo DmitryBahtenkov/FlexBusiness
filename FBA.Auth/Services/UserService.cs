@@ -54,9 +54,19 @@ namespace FBA.Auth.Services
             }
         }
 
-        public async Task<UserResponse> UpdateUser(UpdateInfoRequest request)
+        public async Task<UserResponse> UpdateUser(string id, UpdateInfoRequest request)
         {
-            throw new System.NotImplementedException();
+            var document = await _userWriteOperations.UpdateInfo(id,
+                request.SurName,
+                request.Name,
+                request.Patronymic);
+            
+            if (document is null)
+            {
+                throw new BusinessException("Пользователь не найден");
+            }
+
+            return _mapper.FromDocument(document);
         }
 
         public async Task<UserResponse> DeleteUser(string userId)

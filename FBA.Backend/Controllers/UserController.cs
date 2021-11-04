@@ -24,5 +24,10 @@ namespace FBA.Backend.Controllers
         [HttpPost]
         public async Task<UserResponse> CreateUser([FromBody] CreateUserRequest request)
             => await _userService.CreateUser(request);
+
+        [Authorize]
+        [HttpPut("{id}")]
+        public async Task<UserResponse> UpdateUser(string id, [FromBody] UpdateInfoRequest request)
+            => await _userService.UpdateUser(id, request);
     }
 }

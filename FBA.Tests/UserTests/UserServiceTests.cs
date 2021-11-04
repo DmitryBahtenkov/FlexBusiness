@@ -3,6 +3,7 @@ using FBA.Auth.Contract.Models.Requests;
 using FBA.Auth.Contract.Operations;
 using FBA.Auth.Contract.Services;
 using FBA.CrossCutting.Contract.Exceptions;
+using FBA.Tests.Data;
 using Xunit;
 
 namespace FBA.Tests.UserTests
@@ -17,6 +18,8 @@ namespace FBA.Tests.UserTests
             _userService = userService;
             _userQueryOperations = userQueryOperations;
         }
+
+        #region Create
 
         [Fact(DisplayName = "Проверка создания пользователя с паролем")]
         public async Task CreateUserWithPasswordTest()
@@ -82,5 +85,44 @@ namespace FBA.Tests.UserTests
 
             await Assert.ThrowsAsync<BusinessException>(async () => await _userService.CreateUser(request));
         }
+
+        #endregion
+
+        #region Update
+
+        [Fact(DisplayName = "Корректное обновление пользователя")]
+        public async Task UpdateValidUser()
+        {
+            var updateRequest = new UpdateInfoRequest()
+            {
+                SurName = "Analniy",
+                Name = "Anal",
+                Patronymic = "Alekseevich"
+            };
+
+            var result = await _userService.UpdateUser(TestUsers.UserForUpdate.Id, updateRequest);
+            
+            Assert.NotNull(result);
+            Assert.Equal(updateRequest.Name, result.Name);
+            Assert.Equal(updateRequest.SurName, result.SurName);
+            Assert.Equal(updateRequest.Patronymic, result.Patronymic);
+        }
+        
+        [Fact(DisplayName = "Обновление несуществующего пользователя")]
+        public async Task UpdateNotExistedUser()
+        {
+            var updateRequest = new UpdateInfoRequest()
+            {
+                SurName = "Analniy",
+                Name = "Anal",
+                Patronymic = "Alekseevich"
+            };
+            
+            await Assert.ThrowsAsync<BusinessException>(
+                async () => await _userService.UpdateUser("", updateRequest)
+                );
+        }
+
+        #endregion
     }
 }
