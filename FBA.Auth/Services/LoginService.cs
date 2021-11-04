@@ -20,11 +20,15 @@ namespace FBA.Auth.Services
     {
         private readonly IUserWriteOperations _userWriteOperations;
         private readonly IUserQueryOperations _userQueryOperations;
+        private readonly UserMapper _mapper;
 
-        public LoginService(IUserWriteOperations userWriteOperations, IUserQueryOperations userQueryOperations)
+        public LoginService(IUserWriteOperations userWriteOperations,
+            IUserQueryOperations userQueryOperations,
+            UserMapper mapper)
         {
             _userWriteOperations = userWriteOperations;
             _userQueryOperations = userQueryOperations;
+            _mapper = mapper;
         }
 
         #region Login
@@ -50,7 +54,8 @@ namespace FBA.Auth.Services
             var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
             
             var documentWithToken = await _userWriteOperations.UpdateToken(document.Id, encodedJwt);
-            return MapCurrentUser(documentWithToken);
+            
+            return _mapper.FromDocument(documentWithToken);
         }
         
         private ClaimsIdentity GetIdentity(UserDocument userDocument)
@@ -86,20 +91,6 @@ namespace FBA.Auth.Services
             }
 
             return user;
-        }
-        
-        private UserResponse MapCurrentUser(UserDocument document)
-        {
-            return new()
-            {
-                Id = document.Id,
-                Login = document.Login,
-                Name = document.Name,
-                SurName = document.SurName,
-                Patronymic = document.Patronymic,
-                Token = document.Token,
-                Role = document.Role
-            };
         }
 
         #endregion

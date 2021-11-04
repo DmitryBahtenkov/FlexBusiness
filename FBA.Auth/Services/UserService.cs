@@ -16,36 +16,27 @@ namespace FBA.Auth.Services
     {
         private readonly IUserQueryOperations _userQueryOperations;
         private readonly IUserWriteOperations _userWriteOperations;
+        private readonly UserMapper _mapper;
 
-        public UserService(IUserQueryOperations userQueryOperations, IUserWriteOperations userWriteOperations)
+        public UserService(
+            IUserQueryOperations userQueryOperations, 
+            IUserWriteOperations userWriteOperations, 
+            UserMapper mapper)
         {
             _userQueryOperations = userQueryOperations;
             _userWriteOperations = userWriteOperations;
+            _mapper = mapper;
         }
 
         public async Task<UserResponse> CreateUser(CreateUserRequest request)
         {
             await ValidateRequest(request);
 
-            var password = request.IsNewUser
-                ? null
-                : PasswordHelper.GeneratePassword(request.Password);
-
-            var newDocument = new UserDocument()
-            {
-                Id = IdGen.NewId(),
-                IsNewUser = request.IsNewUser,
-                Login = request.Login,
-                Name = request.Name,
-                SurName = request.SurName,
-                Patronymic = request.Patronymic,
-                Role = request.Role,
-                Password = password
-            };
+            var newDocument = _mapper.New(request);
 
             var user = await _userWriteOperations.Create(newDocument);
             // todo: вынести в отдельный класс
-            return MapCurrentUser(user);
+            return _mapper.FromDocument(user);
         }
 
         private async Task ValidateRequest(CreateUserRequest request)
@@ -61,20 +52,6 @@ namespace FBA.Auth.Services
                 var fio = "{user.SurName} {user.Name} {user.Patronymic}";
                 throw new BusinessException($"Такой пользователь уже существует: {fio}");
             }
-        }
-        
-        private UserResponse MapCurrentUser(UserDocument document)
-        {
-            return new()
-            {
-                Id = document.Id,
-                Login = document.Login,
-                Name = document.Name,
-                SurName = document.SurName,
-                Patronymic = document.Patronymic,
-                Token = document.Token,
-                Role = document.Role
-            };
         }
 
         public async Task<UserResponse> UpdateUser(UpdateInfoRequest request)
