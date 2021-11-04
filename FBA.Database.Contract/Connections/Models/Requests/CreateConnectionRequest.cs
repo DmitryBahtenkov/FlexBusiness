@@ -18,5 +18,7 @@ namespace FBA.Database.Contract.Connections.Models.Requests
         public string Password { get; set; }
         [RequiredWhen(nameof(ConnectionString), null)]
         public string Database { get; set; }
+        [Required(ErrorMessage = "Укажите СУБД")]
+        public DbType DbType { get; set; }
     }
 }

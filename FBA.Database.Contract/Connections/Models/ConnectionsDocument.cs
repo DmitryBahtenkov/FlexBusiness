@@ -13,5 +13,6 @@ namespace FBA.Database.Contract.Connections.Models
         /// </summary>
         public string ConnectionString { get; set; }
         public ConnectionInfo ConnectionInfo { get; set; }
+        public DbType DbType { get; set; }
     }
 }
