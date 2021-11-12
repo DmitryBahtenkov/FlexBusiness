@@ -24,6 +24,8 @@
       <ProjectReference Include="..\FBA.Auth.Contract\FBA.Auth.Contract.csproj" />
       <ProjectReference Include="..\FBA.Auth\FBA.Auth.csproj" />
       <ProjectReference Include="..\FBA.CrossCutting.Contract\FBA.CrossCutting.Contract.csproj" />
+      <ProjectReference Include="..\FBA.Database.Contract\FBA.Database.Contract.csproj" />
+      <ProjectReference Include="..\FBA.Database\FBA.Database.csproj" />
       <ProjectReference Include="..\FBA.Repository.Contract\FBA.Repository.Contract.csproj" />
     </ItemGroup>
 

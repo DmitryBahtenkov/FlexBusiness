@@ -4,6 +4,8 @@ using FBA.Auth.Operations;
 using FBA.Auth.Services;
 using FBA.CrossCutting.Contract.Logging;
 using FBA.CrossCutting.Logging;
+using FBA.Database.Builders;
+using FBA.Database.Contract.Builders;
 using FBA.Repository;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -22,7 +24,7 @@ namespace FBA.DependencyInjection
             collection.AddScoped<UserMapper>();
 
             collection.AddScoped<ILogger, LoggerService>();
-
+            collection.AddScoped<IConnectionStingBuilderFactory, ConnectionStingBuilderFactory>();
         }
     }
 }

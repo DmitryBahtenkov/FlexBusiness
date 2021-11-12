@@ -11,6 +11,7 @@
     <ItemGroup>
       <ProjectReference Include="..\FBA.Auth\FBA.Auth.csproj" />
       <ProjectReference Include="..\FBA.CrossCutting\FBA.CrossCutting.csproj" />
+      <ProjectReference Include="..\FBA.Database\FBA.Database.csproj" />
     </ItemGroup>
 
 </Project>
