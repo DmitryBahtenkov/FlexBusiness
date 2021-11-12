@@ -28,7 +28,11 @@ namespace FBA.Tests.ConnectionsTests
 
             var connectionString = _msConnectionStringBuilder.Build(info);
 
-            AssertDefaultConnectionString(connectionString, info);
+            Assert.NotEmpty(connectionString);
+            var elements = connectionString.Split(";");
+            Assert.Equal(4, elements.Length);
+            
+            AssertDefaultConnectionString(elements, info);
         }
         
         [Fact(DisplayName = "Проверка полноценного создания строки подключения MS SQL с параметром")]
@@ -45,19 +49,20 @@ namespace FBA.Tests.ConnectionsTests
             info.Parameters["Trusted_Connection"] = "True";
 
             var connectionString = _msConnectionStringBuilder.Build(info);
-            var elements = AssertDefaultConnectionString(connectionString, info);
+            
+            Assert.NotEmpty(connectionString);
+            var elements = connectionString.Split(";");
+            Assert.Equal(5, elements.Length);
+            
+            AssertDefaultConnectionString(elements, info);
             
             var param = elements[4];
             Assert.Contains("Trusted_Connection", param);
             Assert.Contains("True", param);
         }
 
-        public string[] AssertDefaultConnectionString(string connectionString, ConnectionInfo info)
+        private void AssertDefaultConnectionString(string[] elements, ConnectionInfo info)
         {
-            Assert.NotEmpty(connectionString);
-            var elements = connectionString.Split(";");
-            Assert.Equal(5, elements.Length);
-            
             var server = elements[0];
             Assert.Contains(info.Host, server);
             Assert.Contains(info.Port, server);
@@ -70,8 +75,6 @@ namespace FBA.Tests.ConnectionsTests
             
             var pass = elements[3];
             Assert.Contains(info.Password, pass);
-
-            return elements;
         }
     }
 }
