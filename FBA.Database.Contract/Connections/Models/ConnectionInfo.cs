@@ -1,4 +1,6 @@
-﻿namespace FBA.Database.Contract.Connections.Models
+﻿using System.Collections.Generic;
+
+namespace FBA.Database.Contract.Connections.Models
 {
     public record ConnectionInfo
     {
@@ -7,5 +9,7 @@
         public string Login { get; set; }
         public string Password { get; set; }
         public string Database { get; set; }
+
+        public Dictionary<string, string> Parameters { get; set; } = new();
     }
 }

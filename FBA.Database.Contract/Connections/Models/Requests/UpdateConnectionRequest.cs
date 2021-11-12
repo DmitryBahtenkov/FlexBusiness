@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using FBA.CrossCutting.Contract.Attributes;
 
 namespace FBA.Database.Contract.Connections.Models.Requests
@@ -18,5 +19,6 @@ namespace FBA.Database.Contract.Connections.Models.Requests
         public string Password { get; set; }
         [RequiredWhen(nameof(ConnectionString), null)]
         public string Database { get; set; }
+        public Dictionary<string, string> Parameters { get; set; } = new();
     }
 }
