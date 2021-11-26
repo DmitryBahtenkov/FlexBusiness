@@ -19,6 +19,18 @@ namespace FBA.Tests.Data
             }
         };
         
+        public static ConnectionsDocument ConnectionForDelete => new()
+        {
+            Id = "connfordelete",
+            DbType = DbType.MsSql,
+            Name = "name",
+            ConnectionInfo = new()
+            {
+                Database = "a",
+                Host = "a"
+            }
+        };
+        
         public static IEnumerable<ConnectionsDocument> GetAllDocuments()
         {
             return typeof(TestConnections)

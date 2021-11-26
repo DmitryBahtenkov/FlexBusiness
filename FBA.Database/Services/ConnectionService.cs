@@ -108,7 +108,14 @@ namespace FBA.Database.Services
 
         public async Task<ConnectionResponse> Delete(string id)
         {
-            throw new System.NotImplementedException();
+            var document = await _settingsWriteOperations.Delete(id);
+
+            if (document is null)
+            {
+                throw new NotFoundException();
+            }
+
+            return Map(document);
         }
 
         public async Task<ConnectionResponse> Get(string id)
