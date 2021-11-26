@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using FBA.Auth.Contract.Services;
+using FBA.CrossCutting.Contract.Exceptions;
 using FBA.Database.Contract.Builders;
 using FBA.Database.Contract.Connections.Models;
 using FBA.Database.Contract.Connections.Models.Requests;
@@ -74,7 +75,35 @@ namespace FBA.Database.Services
 
         public async Task<ConnectionResponse> Update(string id, UpdateConnectionRequest request)
         {
-            throw new System.NotImplementedException();
+            var document = await _settingsQueryOperations.GetById(id);
+            if (document is null)
+            {
+                throw new NotFoundException();
+            }
+
+            if (string.IsNullOrEmpty(request.ConnectionString))
+            {
+                var connectionInfo = new ConnectionInfo
+                {
+                    Database = request.Database,
+                    Host = request.Host,
+                    Login = request.Login,
+                    Parameters = request.Parameters,
+                    Password = request.Password,
+                    Port = request.Port
+                };
+
+                var builder = _connectionStingBuilderFactory.GetBuilder(document.DbType);
+
+                document = await _settingsWriteOperations.UpdateConnectionInfo(document.Id, connectionInfo,
+                    builder.Build(connectionInfo), request.Name);
+            }
+            else
+            {
+                document = await _settingsWriteOperations.UpdateConnectionString(document.Id, request.ConnectionString, request.Name);
+            }
+
+            return Map(document);
         }
 
         public async Task<ConnectionResponse> Delete(string id)

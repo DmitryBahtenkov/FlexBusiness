@@ -6,7 +6,8 @@ namespace FBA.Database.Contract.Connections.Operations
 {
     public interface ISettingsWriteOperations : IWriteOperations<ConnectionsDocument>
     {
-        public Task<ConnectionsDocument> UpdateConnectionString(string id, string connection);
-        public Task<ConnectionsDocument> UpdateConnectionInfo(string id, ConnectionInfo info);
+        public Task<ConnectionsDocument> UpdateConnectionString(string id, string connection, string name);
+        public Task<ConnectionsDocument> UpdateConnectionInfo(string id, ConnectionInfo info, string name);
+        public Task<ConnectionsDocument> UpdateConnectionInfo(string id, ConnectionInfo info, string connectionString, string name);
     }
 }

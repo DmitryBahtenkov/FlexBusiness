@@ -18,6 +18,7 @@ namespace FBA.Tests.Mocks.Base
             Users = new List<UserDocument>();
             Connections = new List<ConnectionsDocument>();
             Users.AddRange(TestUsers.GetAllDocuments());
+            Connections.AddRange(TestConnections.GetAllDocuments());
         }
 
         public static List<TDocument> GetStorage<TDocument>() where TDocument : IDocument

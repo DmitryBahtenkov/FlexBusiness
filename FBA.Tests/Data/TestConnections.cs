@@ -21,7 +21,7 @@ namespace FBA.Tests.Data
         
         public static IEnumerable<ConnectionsDocument> GetAllDocuments()
         {
-            return typeof(TestUsers)
+            return typeof(TestConnections)
                 .GetProperties()
                 .Where(x => x.PropertyType == typeof(ConnectionsDocument))
                 .Select(x => x.GetValue(null, null) as ConnectionsDocument);
