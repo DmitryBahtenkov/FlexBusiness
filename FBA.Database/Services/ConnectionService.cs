@@ -72,7 +72,7 @@ namespace FBA.Database.Services
             };
         }
 
-        public async Task<ConnectionResponse> Update(UpdateConnectionRequest request)
+        public async Task<ConnectionResponse> Update(string id, UpdateConnectionRequest request)
         {
             throw new System.NotImplementedException();
         }

@@ -1,7 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System.Reflection;
+using System.Threading.Tasks;
 using FBA.Database.Contract;
 using FBA.Database.Contract.Connections.Models.Requests;
 using FBA.Database.Contract.Connections.Services;
+using FBA.Tests.Data;
 using Xunit;
 
 namespace FBA.Tests.ConnectionsTests
@@ -33,6 +35,26 @@ namespace FBA.Tests.ConnectionsTests
             Assert.NotNull(response);
             Assert.Equal(request.Name, response.Name);
             Assert.NotEmpty(response.ConnectionString);
+        }
+        
+        [Fact(DisplayName = "Проверка корректного обновления подключения")]
+        public async Task UpdateCorrectConnection()
+        {
+            var request = new UpdateConnectionRequest()
+            {
+                Database = "newdb",
+                Host = "localhost",
+                Name = "My super connection",
+                Login = "User2",
+                Password = "12345"
+            };
+
+            var response = await _connectionsService.Update(TestConnections.ConnectionForUpdate.Id, request);
+            
+            Assert.NotNull(response);
+            Assert.Equal(request.Name, response.Name);
+            Assert.NotEmpty(response.ConnectionString);
+            Assert.Equal(request.Database, response.Database);
         }
     }
 }
