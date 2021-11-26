@@ -9,5 +9,7 @@
     &lt;TestId&gt;xUnit::FAE601CD-F6D8-44A4-AFDE-6FD5CEDC8461::net5.0::FBA.Tests.ConnectionsTests.MsConnectionStringBuilderTests&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;xUnit::FAE601CD-F6D8-44A4-AFDE-6FD5CEDC8461::net5.0::FBA.Tests.ConnectionsTests.ConnectionServiceTests.CreateCorrectConnection&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;xUnit::FAE601CD-F6D8-44A4-AFDE-6FD5CEDC8461::net5.0::FBA.Tests.ConnectionsTests.ConnectionServiceTests.UpdateCorrectConnection&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::FAE601CD-F6D8-44A4-AFDE-6FD5CEDC8461::net5.0::FBA.Tests.ConnectionsTests.ConnectionServiceTests.DeleteExistingConnection&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::FAE601CD-F6D8-44A4-AFDE-6FD5CEDC8461::net5.0::FBA.Tests.ConnectionsTests.ConnectionServiceTests&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

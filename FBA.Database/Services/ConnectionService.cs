@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using FBA.Auth.Contract.Services;
 using FBA.CrossCutting.Contract.Exceptions;
 using FBA.Database.Contract.Builders;
@@ -120,12 +121,24 @@ namespace FBA.Database.Services
 
         public async Task<ConnectionResponse> Get(string id)
         {
-            throw new System.NotImplementedException();
+            var document = await _settingsQueryOperations.GetById(id);
+
+            if (document is null)
+            {
+                throw new NotFoundException();
+            }
+
+            return Map(document);
         }
 
         public async Task<GetConnectionsResponse> Get()
         {
-            throw new System.NotImplementedException();
+            var docs = await _settingsQueryOperations.GetAll();
+
+            return new GetConnectionsResponse
+            {
+                Connections = docs.Select(Map).ToList()
+            };
         }
     }
 }

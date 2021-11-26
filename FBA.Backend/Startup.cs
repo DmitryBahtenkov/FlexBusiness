@@ -39,6 +39,7 @@ namespace FBA.Backend
             services.AddMvc(options => options.Filters.Add<ValidateModelAttribute>());
             
             services.AddControllers();
+            services.AddHttpContextAccessor();
             
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
