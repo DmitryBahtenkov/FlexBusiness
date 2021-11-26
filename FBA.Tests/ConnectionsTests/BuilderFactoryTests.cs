@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using FBA.Database.Builders;
 using FBA.Database.Contract;
 using FBA.Database.Contract.Builders;
@@ -16,12 +17,12 @@ namespace FBA.Tests.ConnectionsTests
         }
 
         [Theory(DisplayName = "Проверка на корректный тип строителя строк для MS SQL")]
-        [InlineData(DbType.MsSql)]
-        public void GetMsSqlBuilderTest(DbType type)
+        [InlineData(DbType.MsSql, typeof(MsConnectionStringBuilder))]
+        public void GetMsSqlBuilderTest(DbType type, Type expectedType)
         {
             var ms = _connectionStingBuilderFactory.GetBuilder(type);
             
-            Assert.IsType<MsConnectionStringBuilder>(ms);
+            Assert.IsType(expectedType, ms);
         }
     }
 }

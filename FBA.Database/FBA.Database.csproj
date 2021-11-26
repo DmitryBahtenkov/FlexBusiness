@@ -5,7 +5,9 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\FBA.Auth.Contract\FBA.Auth.Contract.csproj" />
       <ProjectReference Include="..\FBA.Database.Contract\FBA.Database.Contract.csproj" />
+      <ProjectReference Include="..\FBA.Repository\FBA.Repository.csproj" />
     </ItemGroup>
 
 </Project>

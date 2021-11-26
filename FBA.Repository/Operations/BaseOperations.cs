@@ -8,8 +8,9 @@ namespace FBA.Repository.Operations
         protected FilterDefinitionBuilder<TDocument> F => Builders<TDocument>.Filter;
         protected UpdateDefinitionBuilder<TDocument> U => Builders<TDocument>.Update;
 
-        private readonly DbContext _dbContext;
         protected readonly IMongoCollection<TDocument> Collection;
+
+        private readonly DbContext _dbContext;
 
         protected BaseOperations(DbContext dbContext)
         {

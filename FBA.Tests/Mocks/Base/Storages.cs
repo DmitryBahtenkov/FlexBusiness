@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using FBA.Auth.Contract.Models;
+using FBA.Database.Contract.Connections.Models;
 using FBA.Repository.Contract.Documents;
 using FBA.Tests.Data;
 using FBA.Tests.Exceptions;
@@ -9,11 +10,13 @@ namespace FBA.Tests.Mocks.Base
 {
     public class Storages
     {
-        public static List<UserDocument> Users { get;  }
+        public static List<UserDocument> Users { get; }
+        public static List<ConnectionsDocument> Connections { get; }
 
         static Storages()
         {
             Users = new List<UserDocument>();
+            Connections = new List<ConnectionsDocument>();
             Users.AddRange(TestUsers.GetAllDocuments());
         }
 

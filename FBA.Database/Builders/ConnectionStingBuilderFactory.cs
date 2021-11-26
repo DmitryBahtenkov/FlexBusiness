@@ -11,8 +11,8 @@ namespace FBA.Database.Builders
             return type switch
             {
                 DbType.MsSql => new MsConnectionStringBuilder(),
-                DbType.Postgres => null,
-                DbType.MySql => null,
+                DbType.Postgres => throw new NotImplementedException("Пока что не реализовано"),
+                DbType.MySql => throw new NotImplementedException("Пока что не реализовано"),
                 _ => throw new ArgumentException("Указана неизвестная субд", nameof(type))
             };
         }
