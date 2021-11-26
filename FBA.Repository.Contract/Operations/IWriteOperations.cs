@@ -5,8 +5,8 @@ namespace FBA.Repository.Contract.Operations
 {
     public interface IWriteOperations<TDocument> where TDocument : IDocument
     {
-        public Task<TDocument> Create(TDocument document);
-        public Task<TDocument> Update(TDocument document);
-        public Task<TDocument> Delete(string id, bool safe = true);
+        public Task<TDocument?> Create(TDocument document);
+        public Task<TDocument?> Update(TDocument document);
+        public Task<TDocument?> Delete(string id, bool safe = true);
     }
 }
