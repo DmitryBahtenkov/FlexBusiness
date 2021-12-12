@@ -2,7 +2,7 @@
 
 namespace FBA.Database.Contract.Connections.Models
 {
-    public class ConnectionsDocument : IDocument
+    public class ConnectionsDocument : IDocumentWithUserId
     {
         public string Id { get; set; }
         public bool IsArchived { get; set; }

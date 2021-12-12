@@ -9,4 +9,9 @@
       <ProjectReference Include="..\FBA.Repository.Contract\FBA.Repository.Contract.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Diagram\Models\Requests" />
+      <Folder Include="Diagram\Models\Responses" />
+    </ItemGroup>
+
 </Project>
