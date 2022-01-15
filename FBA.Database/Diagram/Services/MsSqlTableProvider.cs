@@ -36,10 +36,11 @@ namespace FBA.Database.Diagram.Services
 
             var grouping = results
                 .GroupBy(x => x.TableName)
-                .ToDictionary(x=>x.Key, x=> x.ToList());
+                .ToDictionary(x => x.Key, x => x.ToList());
 
             foreach (var (table, columns) in grouping)
             {
+                var primaryKeys = await GetPrimaryKeysForTable(sqlConnection, table);
                 var tableDocument = new TableEmbeddedDocument
                 {
                     Title = table,
@@ -47,16 +48,64 @@ namespace FBA.Database.Diagram.Services
                     {
                         Title = x.ColumnName,
                         DataType = x.CharLength is null ? x.DataType : $"{x.DataType}({x.CharLength})",
-                        Position = x.Position
-                    }).ToList()
+                        Position = x.Position,
+                        IsPrimaryKey = primaryKeys.Any(p => p.ColumnName == x.ColumnName)
+                    }).ToList(),
+                    References = await GetReferencesForTable(sqlConnection, table)
                 };
-                
-                //todo: exec two stored procedures for refs and PK
                 
                 tables.Add(tableDocument);
             }
 
             return tables;
+        }
+
+        private async Task<List<ReferenceEmbeddedDocument>> GetReferencesForTable(SqlConnection connection, string tableName)
+        {
+            var query = $"EXEC sp_fkeys @tableName";
+            var nameParam = new SqlParameter("@tableName", tableName);
+            var command = new SqlCommand(query, connection);
+            command.Parameters.Add(nameParam);
+            command.CommandType = CommandType.StoredProcedure;
+
+
+            var results = new List<ReferenceEmbeddedDocument>();
+
+            var reader = await command.ExecuteReaderAsync();
+            
+            while (await reader.ReadAsync())
+            {
+                var item = new ReferenceEmbeddedDocument
+                {
+                    ToTable = reader.GetString(6)
+                };
+                
+                results.Add(item);
+            }
+
+            return results;
+        }
+
+        private async Task<List<SpPkKeysResult>> GetPrimaryKeysForTable(SqlConnection connection, string tableName)
+        {
+            var query = $"EXEC sp_pkeys @tableName";
+            var nameParam = new SqlParameter("@tableName", tableName);
+            var command = new SqlCommand(query, connection);
+            command.Parameters.Add(nameParam);
+            command.CommandType = CommandType.StoredProcedure;
+
+            var results = new List<SpPkKeysResult>();
+
+            var reader = await command.ExecuteReaderAsync();
+            
+            while (await reader.ReadAsync())
+            {
+                var item = new SpPkKeysResult(reader.GetString(3));
+                
+                results.Add(item);
+            }
+
+            return results;
         }
     }
 
@@ -66,4 +115,6 @@ namespace FBA.Database.Diagram.Services
         int Position,
         string DataType,
         int? CharLength);
+
+    record SpPkKeysResult(string ColumnName);
 }
