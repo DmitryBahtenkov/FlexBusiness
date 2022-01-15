@@ -1,4 +1,5 @@
-﻿using FBA.Database.Contract;
+﻿using System;
+using FBA.Database.Contract;
 using FBA.Database.Contract.Diagram.Services;
 
 namespace FBA.Database.Diagram.Services
@@ -7,7 +8,13 @@ namespace FBA.Database.Diagram.Services
     {
         public ITableProvider GetProvider(DbType type)
         {
-            throw new System.NotImplementedException();
+            return type switch
+            {
+                DbType.MsSql => new MsSqlTableProvider(),
+                DbType.MySql => throw new NotImplementedException(),
+                DbType.Postgres => throw new NotImplementedException(),
+                _ => throw new ArgumentException(nameof(type))
+            };
         }
     }
 }
