@@ -17,47 +17,55 @@ namespace FBA.Database.Diagram.Services
             var results = new List<InformationSchemaResult>();
             
             await using var sqlConnection = new SqlConnection(connection.ConnectionString);
-            var query =
+            try
+            {
+                await sqlConnection.OpenAsync();
+                var query =
                 "select  TABLE_NAME, COLUMN_NAME, ORDINAL_POSITION, DATA_TYPE, CHARACTER_MAXIMUM_LENGTH  from INFORMATION_SCHEMA.COLUMNS";
-            
-            var command = new SqlCommand(query, sqlConnection);
-            var reader = await command.ExecuteReaderAsync();
-            
-            while (await reader.ReadAsync())
-            {
-                var item = new InformationSchemaResult(reader.GetString(0),
-                    reader.GetString(1),
-                    (int) reader.GetValue(2),
-                    reader.GetString(3),
-                    (int?) reader.GetValue(4));
-                
-                results.Add(item);
-            }
 
-            var grouping = results
-                .GroupBy(x => x.TableName)
-                .ToDictionary(x => x.Key, x => x.ToList());
+                var command = new SqlCommand(query, sqlConnection);
+                var reader = await command.ExecuteReaderAsync();
 
-            foreach (var (table, columns) in grouping)
-            {
-                var primaryKeys = await GetPrimaryKeysForTable(sqlConnection, table);
-                var tableDocument = new TableEmbeddedDocument
+                while (await reader.ReadAsync())
                 {
-                    Title = table,
-                    Fields = columns.Select(x=>new FieldEmbeddedDocument
-                    {
-                        Title = x.ColumnName,
-                        DataType = x.CharLength is null ? x.DataType : $"{x.DataType}({x.CharLength})",
-                        Position = x.Position,
-                        IsPrimaryKey = primaryKeys.Any(p => p.ColumnName == x.ColumnName)
-                    }).ToList(),
-                    References = await GetReferencesForTable(sqlConnection, table)
-                };
-                
-                tables.Add(tableDocument);
-            }
+                    var item = new InformationSchemaResult(reader.GetString(0),
+                        reader.GetString(1),
+                        (int)reader.GetValue(2),
+                        reader.GetString(3),
+                        (int?)reader.GetValue(4));
 
-            return tables;
+                    results.Add(item);
+                }
+
+                var grouping = results
+                    .GroupBy(x => x.TableName)
+                    .ToDictionary(x => x.Key, x => x.ToList());
+
+                foreach (var (table, columns) in grouping)
+                {
+                    var primaryKeys = await GetPrimaryKeysForTable(sqlConnection, table);
+                    var tableDocument = new TableEmbeddedDocument
+                    {
+                        Title = table,
+                        Fields = columns.Select(x => new FieldEmbeddedDocument
+                        {
+                            Title = x.ColumnName,
+                            DataType = x.CharLength is null ? x.DataType : $"{x.DataType}({x.CharLength})",
+                            Position = x.Position,
+                            IsPrimaryKey = primaryKeys.Any(p => p.ColumnName == x.ColumnName)
+                        }).ToList(),
+                        References = await GetReferencesForTable(sqlConnection, table)
+                    };
+
+                    tables.Add(tableDocument);
+                }
+
+                return tables;
+            }
+            finally
+            {
+                await sqlConnection.CloseAsync();
+            }
         }
 
         private async Task<List<ReferenceEmbeddedDocument>> GetReferencesForTable(SqlConnection connection, string tableName)
