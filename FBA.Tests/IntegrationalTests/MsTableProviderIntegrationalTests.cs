@@ -22,7 +22,8 @@ namespace FBA.Tests.IntegrationalTests
 			_tableProviderFactory = tableProviderFactory;
 		}
 
-        [Fact]
+        [Fact(Skip = "Необходима бд ms sql с демэкзамена, развёрнутая локально со стандартной конфигурацией")]
+        //[Fact]
         public async Task GetTablesFromDemEkzamenTest()
         {
             GivenTheConnection();
@@ -32,7 +33,12 @@ namespace FBA.Tests.IntegrationalTests
 
         private void ThenAllTablesExists()
         {
-
+            Assert.Equal(5, Tables.Count);
+            
+            Assert.Contains(Tables, x => x.Title is "History");
+            Assert.Contains(Tables, x => x.Title is "Material");
+            Assert.Contains(Tables, x => x.Title is "Supplier");
+            Assert.Contains(Tables, x => x.Title is "MaterialSupplier");
         }
 
         private async Task WhenTablesAreReceived()
@@ -44,7 +50,7 @@ namespace FBA.Tests.IntegrationalTests
         {
             Connection = new ConnectionsDocument
             {
-                ConnectionString = "Server=DESKTOP-SVMQI20;Database=PaperDE;Trusted_Connection=True;"
+                ConnectionString = "Server=localhost; Database=PaperDE; User Id=Userok; Password=Userok; Trusted_Connection=Yes; TrustServerCertificate=True"
             };
         }
     }

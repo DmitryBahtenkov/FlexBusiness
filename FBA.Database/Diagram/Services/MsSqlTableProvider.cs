@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
@@ -21,22 +22,29 @@ namespace FBA.Database.Diagram.Services
             {
                 await sqlConnection.OpenAsync();
                 var query =
-                "select  TABLE_NAME, COLUMN_NAME, ORDINAL_POSITION, DATA_TYPE, CHARACTER_MAXIMUM_LENGTH  from INFORMATION_SCHEMA.COLUMNS";
+                "select TABLE_NAME, COLUMN_NAME, ORDINAL_POSITION, DATA_TYPE, CHARACTER_MAXIMUM_LENGTH from INFORMATION_SCHEMA.COLUMNS";
 
                 var command = new SqlCommand(query, sqlConnection);
                 var reader = await command.ExecuteReaderAsync();
 
-                while (await reader.ReadAsync())
+                try
                 {
-                    var item = new InformationSchemaResult(reader.GetString(0),
-                        reader.GetString(1),
-                        (int)reader.GetValue(2),
-                        reader.GetString(3),
-                        (int?)reader.GetValue(4));
+                    while (await reader.ReadAsync())
+                    {
+                        var item = new InformationSchemaResult(reader.GetString(0),
+                            reader.GetString(1),
+                            (int) reader.GetValue(2),
+                            reader.GetString(3),
+                            reader.GetValue(4) is int i ? i : null);
 
-                    results.Add(item);
+                        results.Add(item);
+                    }
                 }
-
+                finally
+                {
+                    await reader.CloseAsync();
+                }
+                
                 var grouping = results
                     .GroupBy(x => x.TableName)
                     .ToDictionary(x => x.Key, x => x.ToList());
@@ -74,21 +82,26 @@ namespace FBA.Database.Diagram.Services
             var nameParam = new SqlParameter("@tableName", tableName);
             var command = new SqlCommand(query, connection);
             command.Parameters.Add(nameParam);
-            command.CommandType = CommandType.StoredProcedure;
-
 
             var results = new List<ReferenceEmbeddedDocument>();
 
             var reader = await command.ExecuteReaderAsync();
-            
-            while (await reader.ReadAsync())
+
+            try
             {
-                var item = new ReferenceEmbeddedDocument
+                while (await reader.ReadAsync())
                 {
-                    ToTable = reader.GetString(6)
-                };
+                    var item = new ReferenceEmbeddedDocument
+                    {
+                        ToTable = reader.GetString(6)
+                    };
                 
-                results.Add(item);
+                    results.Add(item);
+                }
+            }
+            finally
+            {
+                await reader.CloseAsync();
             }
 
             return results;
@@ -100,17 +113,23 @@ namespace FBA.Database.Diagram.Services
             var nameParam = new SqlParameter("@tableName", tableName);
             var command = new SqlCommand(query, connection);
             command.Parameters.Add(nameParam);
-            command.CommandType = CommandType.StoredProcedure;
 
             var results = new List<SpPkKeysResult>();
 
             var reader = await command.ExecuteReaderAsync();
-            
-            while (await reader.ReadAsync())
+
+            try
             {
-                var item = new SpPkKeysResult(reader.GetString(3));
-                
-                results.Add(item);
+                while (await reader.ReadAsync())
+                {
+                    var item = new SpPkKeysResult(reader.GetString(3));
+
+                    results.Add(item);
+                }
+            }
+            finally
+            {
+                await reader.CloseAsync();
             }
 
             return results;
