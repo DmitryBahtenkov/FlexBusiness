@@ -8,6 +8,7 @@ using FBA.Database.Contract.Connections.Models.Requests;
 using FBA.Database.Contract.Connections.Models.Responses;
 using FBA.Database.Contract.Connections.Operations;
 using FBA.Database.Contract.Connections.Services;
+using FBA.Database.Contract.Diagram.Services;
 using FBA.Repository.Helpers;
 
 namespace FBA.Database.Services
@@ -17,13 +18,16 @@ namespace FBA.Database.Services
         private readonly IConnectionStingBuilderFactory _connectionStingBuilderFactory;
         private readonly ISettingsQueryOperations _settingsQueryOperations;
         private readonly ISettingsWriteOperations _settingsWriteOperations;
+		private readonly IDiagramService _diagramService;
         private readonly ICurrentUserService _currentUserService; 
 
         public ConnectionService(IConnectionStingBuilderFactory connectionStingBuilderFactory, 
             ISettingsQueryOperations settingsQueryOperations, 
             ISettingsWriteOperations settingsWriteOperations, 
-            ICurrentUserService currentUserService)
+            ICurrentUserService currentUserService,
+			IDiagramService diagramService)
         {
+			_diagramService = diagramService;
             _connectionStingBuilderFactory = connectionStingBuilderFactory;
             _settingsQueryOperations = settingsQueryOperations;
             _settingsWriteOperations = settingsWriteOperations;
@@ -57,6 +61,8 @@ namespace FBA.Database.Services
             
             newDocument = await _settingsWriteOperations.Create(newDocument);
 
+            await _diagramService.CreateFromConnection(newDocument.Id);
+            
             return Map(newDocument);
         }
 

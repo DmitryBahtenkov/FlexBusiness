@@ -6,6 +6,6 @@ namespace FBA.Database.Contract.Diagram.Services
     public interface IDiagramService
     {
         public Task<DiagramDocument> Get(string id);
-        internal Task<DiagramDocument> CreateFromConnection(string connectionId);
+        public Task<DiagramDocument> CreateFromConnection(string connectionId);
     }
 }

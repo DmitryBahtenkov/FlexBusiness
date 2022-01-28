@@ -53,11 +53,11 @@ namespace FBA.Repository.Operations
         /// <param name="filter"></param>
         /// <param name="archive"></param>
         /// <returns></returns>
-        protected async Task<IEnumerable<TDocument>> GetMany(FilterDefinition<TDocument> filter, bool archive = false)
+        protected async Task<List<TDocument>> GetMany(FilterDefinition<TDocument> filter, bool archive = false)
         {
             filter &= F.Eq(x => x.IsArchived, archive);
             
-            return (await Collection.FindAsync(filter)).ToEnumerable();
+            return (await Collection.FindAsync(filter)).ToList();
         }
 
         public QueryOperations(DbContext dbContext) : base(dbContext)
