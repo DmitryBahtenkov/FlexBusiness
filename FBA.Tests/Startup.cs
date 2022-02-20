@@ -9,6 +9,7 @@ using FBA.Database.Contract.Diagram.Services;
 using FBA.Database.Diagram.Services;
 using FBA.Database.Operations;
 using FBA.Database.Services;
+using FBA.Tests.Mocks.Diagrams;
 using FBA.Tests.Mocks.Settings;
 using FBA.Tests.Mocks.User;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,6 +32,7 @@ namespace FBA.Tests
             services.AddScoped<IConnectionsService, ConnectionService>();
 
             services.AddScoped<IConnectionStingBuilderFactory, ConnectionStingBuilderFactory>();
+            services.AddScoped<IDiagramService, DiagramServiceMock>();
             
             services.AddSingleton<ITableProviderFactory, TableProviderFactory>();
         }
