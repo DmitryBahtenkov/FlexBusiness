@@ -7,10 +7,11 @@ namespace FBA.Database.Contract.StoredProcedures.Services
 {
     public interface IStoredProcedureService
     {
-        public Task<StoredProcedureDocument> Create(ProcedureRequest request);
+        public Task<StoredProcedureDocument> Create(string connectionId, ProcedureRequest request);
         public Task<StoredProcedureDocument> Update(string id, ProcedureRequest request);
         public Task<List<string>> GetNamesFromDatabase(string connectionId);
         public Task<List<StoredProcedureDocument>> GetAll();
         public Task<StoredProcedureDocument> Get(string id);
+        public Task<List<StoredProcedureDocument>> GetByConnection(string connectionId);
     }
 }
