@@ -21,5 +21,8 @@ namespace FBA.Backend.Controllers
 
         [HttpGet("{id}")]
         public async Task<DiagramDocument> Get(string id) => await _diagramService.Get(id); 
+
+        [HttpGet("connection/{id}")]
+        public async Task<DiagramDocument> GetByConnection(string id) => await _diagramService.GetByConnection(id); 
     }
 }

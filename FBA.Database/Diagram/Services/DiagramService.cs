@@ -56,5 +56,10 @@ namespace FBA.Database.Diagram.Services
         {
             return await _diagramQueryOperations.GetById(id);
         }
+
+        public async Task<DiagramDocument> GetByConnection(string connectionId)
+        {
+            return await _diagramQueryOperations.ByConnection(connectionId);
+        }
     }
 }
