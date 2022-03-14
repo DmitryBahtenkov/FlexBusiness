@@ -49,6 +49,7 @@ namespace FBA.Database.Services
                     Port = request.Port
                 },
                 DbType = request.DbType,
+                ConnectionString = request.ConnectionString,
                 Name = request.Name,
                 UserId = _currentUserService.Get().Id
             };

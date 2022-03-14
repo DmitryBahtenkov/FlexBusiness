@@ -11,7 +11,7 @@ namespace FBA.Backend.Controllers
 {
     [Route("api/v1/user")]
     [ApiController]
-    [Authorize(Roles = RoleTags.Admin)]
+    //[Authorize(Roles = RoleTags.Admin)]
     public class UserController
     {
         private readonly IUserService _userService;

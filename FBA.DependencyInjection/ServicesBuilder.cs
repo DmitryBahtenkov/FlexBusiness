@@ -8,6 +8,10 @@ using FBA.Database.Builders;
 using FBA.Database.Contract.Builders;
 using FBA.Database.Contract.Connections.Operations;
 using FBA.Database.Contract.Connections.Services;
+using FBA.Database.Contract.Diagram.Operations;
+using FBA.Database.Contract.Diagram.Services;
+using FBA.Database.Diagram.Operations;
+using FBA.Database.Diagram.Services;
 using FBA.Database.Operations;
 using FBA.Database.Services;
 using FBA.Repository;
@@ -34,6 +38,11 @@ namespace FBA.DependencyInjection
             
             collection.AddScoped<ILogger, LoggerService>();
             collection.AddScoped<IConnectionStingBuilderFactory, ConnectionStingBuilderFactory>();
+
+            collection.AddScoped<IDiagramService, DiagramService>();
+            collection.AddScoped<ITableProviderFactory, TableProviderFactory>();
+            collection.AddScoped<IDiagramQueryOperations, DiagramQueryOperations>();
+            collection.AddScoped<IDiagramWriteOperations, DiagramWriteOperations>();
         }
     }
 }
