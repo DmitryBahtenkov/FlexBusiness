@@ -74,9 +74,15 @@ namespace FBA.Database.StoredProcedures.Services
             return await provider.GetNames(connection);
         }
 
-        public Task<StoredProcedureDocument> Update(string id, ProcedureRequest request)
+        public async Task<StoredProcedureDocument> Update(string id, ProcedureRequest request)
         {
-            throw new NotImplementedException();
+            var document = await Get(id);
+            if(document is null)
+            {
+                throw new NotFoundException();
+            }
+
+            return await _storedProcedureWriteOperations.UpdateInfo(id, request.Name, request.Title);
         }
 
         private async Task<ConnectionsDocument> GetConnection(string connectionId)

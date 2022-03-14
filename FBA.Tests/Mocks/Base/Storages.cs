@@ -6,6 +6,7 @@ using FBA.Database.Contract.StoredProcedures.Models;
 using FBA.Repository.Contract.Documents;
 using FBA.Tests.Data;
 using FBA.Tests.Exceptions;
+using FBA.Tests.ProcedureTests;
 
 namespace FBA.Tests.Mocks.Base
 {
@@ -23,6 +24,7 @@ namespace FBA.Tests.Mocks.Base
             
             Users.AddRange(TestUsers.GetAllDocuments());
             Connections.AddRange(TestConnections.GetAllDocuments());
+            StoredProcedures.Add(TestProcedures.Procedure);
         }
 
         public static List<TDocument> GetStorage<TDocument>() where TDocument : IDocument

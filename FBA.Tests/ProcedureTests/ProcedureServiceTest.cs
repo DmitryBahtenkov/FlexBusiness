@@ -34,5 +34,21 @@ namespace FBA.Tests.ProcedureTests
             Assert.Equal(request.Name, doc.Name);
             Assert.Equal(request.Title, doc.Title);
         }
+
+        [Fact]
+        public async Task UpdateValidProcedureTest()
+        {
+            var request = new ProcedureRequest
+            {
+                Name = "Name",
+                Title = "Title"
+            };
+
+            var doc = await _storedProcedureService.Update(TestProcedures.Procedure.Id, request);
+
+            Assert.NotNull(doc);
+            Assert.Equal(request.Name, doc.Name);
+            Assert.Equal(request.Title, doc.Title);
+        }
     }
 }
