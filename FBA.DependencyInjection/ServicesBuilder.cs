@@ -17,6 +17,7 @@ using FBA.Database.Diagram.Services;
 using FBA.Database.Operations;
 using FBA.Database.Services;
 using FBA.Database.StoredProcedures.Operations;
+using FBA.Database.StoredProcedures.Providers;
 using FBA.Database.StoredProcedures.Services;
 using FBA.Repository;
 using Microsoft.Extensions.DependencyInjection;
@@ -51,6 +52,7 @@ namespace FBA.DependencyInjection
             collection.AddScoped<IStoredProcedureQueryOperations, StoredProcedureQueryOperations>();
             collection.AddScoped<IStoredProcedureWriteOperations, StoredProcedureWriteOperations>();
             collection.AddScoped<IStoredProcedureService, StoredProcedureService>();
+            collection.AddScoped<IProcedureInfoProviderFactory, ProcedureInfoProviderFactory>();
         }
     }
 }

@@ -76,5 +76,19 @@ namespace FBA.Tests.ConnectionsTests
             var pass = elements[3];
             Assert.Contains(info.Password, pass);
         }
+
+        [Fact]
+        public void GenerateConnectionInfoFromStringTest()
+        {
+            var connectionString = 
+                "Server=localhost; Database=FamilyBudget; User Id=Userok; Password=Userok; Trusted_Connection=Yes; TrustServerCertificate=True";
+
+            var connectionInfo = _msConnectionStringBuilder.Deconstruct(connectionString);
+
+            Assert.Equal("localhost", connectionInfo.Host);
+            Assert.Equal("FamilyBudget", connectionInfo.Database);
+            Assert.Equal("Userok", connectionInfo.Login);
+            Assert.Equal("Userok", connectionInfo.Password);
+        }
     }
 }

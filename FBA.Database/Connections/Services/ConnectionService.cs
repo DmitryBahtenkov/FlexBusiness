@@ -54,10 +54,16 @@ namespace FBA.Database.Services
                 UserId = _currentUserService.Get().Id
             };
 
+            var builder = _connectionStingBuilderFactory.GetBuilder(request.DbType);
+
             if (string.IsNullOrEmpty(request.ConnectionString))
             {
-                var builder = _connectionStingBuilderFactory.GetBuilder(request.DbType);
                 newDocument.ConnectionString = builder.Build(newDocument.ConnectionInfo);
+            }
+            else
+            {
+                var info = builder.Deconstruct(request.ConnectionString);
+                newDocument.ConnectionInfo = info;
             }
             
             newDocument = await _settingsWriteOperations.Create(newDocument);
