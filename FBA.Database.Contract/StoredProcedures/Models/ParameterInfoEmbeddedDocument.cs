@@ -6,14 +6,16 @@ namespace FBA.Database.Contract.StoredProcedures.Models
     {
         public string Name { get; set; }
         public string Title { get; set; }
-        public DataType DataType { get; set; } 
+        public DataType DataType { get; set; }
+        public int Order { get; set; }
     }
 
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum DataType 
     {
-        Date,
-        Varchar,
-        Integer
+        Date = 61,
+        Varchar = 167,
+        Integer = 56,
+        Unknown = -1
     }
 }
