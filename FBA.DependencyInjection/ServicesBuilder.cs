@@ -10,10 +10,14 @@ using FBA.Database.Contract.Connections.Operations;
 using FBA.Database.Contract.Connections.Services;
 using FBA.Database.Contract.Diagram.Operations;
 using FBA.Database.Contract.Diagram.Services;
+using FBA.Database.Contract.StoredProcedures.Operations;
+using FBA.Database.Contract.StoredProcedures.Services;
 using FBA.Database.Diagram.Operations;
 using FBA.Database.Diagram.Services;
 using FBA.Database.Operations;
 using FBA.Database.Services;
+using FBA.Database.StoredProcedures.Operations;
+using FBA.Database.StoredProcedures.Services;
 using FBA.Repository;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -43,6 +47,10 @@ namespace FBA.DependencyInjection
             collection.AddScoped<ITableProviderFactory, TableProviderFactory>();
             collection.AddScoped<IDiagramQueryOperations, DiagramQueryOperations>();
             collection.AddScoped<IDiagramWriteOperations, DiagramWriteOperations>();
+
+            collection.AddScoped<IStoredProcedureQueryOperations, StoredProcedureQueryOperations>();
+            collection.AddScoped<IStoredProcedureWriteOperations, StoredProcedureWriteOperations>();
+            collection.AddScoped<IStoredProcedureService, StoredProcedureService>();
         }
     }
 }
