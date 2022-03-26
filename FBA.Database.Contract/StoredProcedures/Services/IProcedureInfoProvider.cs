@@ -8,6 +8,8 @@ namespace FBA.Database.Contract.StoredProcedures.Services
     public interface IProcedureInfoProvider
     {
         public Task<List<string>> GetNames(ConnectionsDocument document);
+        public Task<object> ExecuteStoredProcedure(ConnectionsDocument document, string procedureName, Dictionary<string, string> parameters);
+
         public Task<ParameterInfoEmbeddedDocument[]> GetParameters(ConnectionsDocument document, string procedureName);
     }
 }

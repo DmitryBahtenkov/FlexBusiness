@@ -10,6 +10,11 @@ namespace FBA.Tests.Mocks.Procedures
 {
     public class ProcedureInfoProviderMock : IProcedureInfoProvider
     {
+        public Task<object> ExecuteStoredProcedure(ConnectionsDocument document, string procedureName, Dictionary<string, string> parameters)
+        {
+            throw new NotImplementedException();
+        }
+
         public  Task<List<string>> GetNames(ConnectionsDocument document)
         {
             return Task.FromResult(new List<string>() { "@param" });

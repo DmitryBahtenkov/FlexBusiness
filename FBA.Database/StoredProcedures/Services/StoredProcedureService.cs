@@ -1,3 +1,4 @@
+using System.Text;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,6 +50,35 @@ namespace FBA.Database.StoredProcedures.Services
             document.Parameters = await provider.GetParameters(connection, request.Name);
 
             return await _storedProcedureWriteOperations.Create(document);
+        }
+
+        public async Task<object> Execute(string id, Dictionary<string, string> parameters)
+        {
+            var procedure = await Get(id);
+            if(procedure is null)
+            {
+                throw new NotFoundException();
+            }
+
+            var errors = new StringBuilder();
+            foreach(var param in procedure.Parameters)
+            {
+                if (!parameters.ContainsKey(param.Name))
+                {
+                    errors.Append($"Отсутствует параметр {param.Name} - {param.Title}; ");
+                }
+            }
+
+            var errorText = errors.ToString();
+            if (!string.IsNullOrEmpty(errorText))
+            {
+                throw new BusinessException(errorText);
+            }
+
+            var connection = await GetConnection(procedure.ConnectionId);
+
+            var provider = _procedureInfoProviderFactory.GetProvider(connection.DbType);
+            return await provider.ExecuteStoredProcedure(connection, procedure.Name, parameters);
         }
 
         public async Task<StoredProcedureDocument> Get(string id)

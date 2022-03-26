@@ -13,5 +13,6 @@ namespace FBA.Database.Contract.StoredProcedures.Services
         public Task<List<StoredProcedureDocument>> GetAll();
         public Task<StoredProcedureDocument> Get(string id);
         public Task<List<StoredProcedureDocument>> GetByConnection(string connectionId);
+        public Task<object> Execute(string id, Dictionary<string, string> parameters);
     }
 }

@@ -1,5 +1,7 @@
+using System.Text;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using FBA.Database.Contract.Connections.Models;
@@ -11,12 +13,55 @@ namespace FBA.Database.StoredProcedures.Providers
 {
     public class MsProcedureInfoProvider : IProcedureInfoProvider
     {
+        public async Task<object> ExecuteStoredProcedure(
+            ConnectionsDocument document,
+            string procedureName, 
+            Dictionary<string, string> parameters)
+        {
+            await using var sqlConnection = new SqlConnection(document.ConnectionString);
+            await sqlConnection.OpenAsync();
+
+            var sb = new StringBuilder();
+            sb.Append("exec @procName ");
+            sb.Append(string.Join(", ", parameters.Select(k => $"{k.Key}")));
+
+            var parameter = new SqlParameter("@procName", procedureName);
+            var command = new SqlCommand(sb.ToString(), sqlConnection);
+            command.Parameters.Add(parameter);
+
+            foreach(var (k,v) in parameters)
+            {
+                command.Parameters.Add(new SqlParameter(k, v));
+            }
+
+            var adapter = new SqlDataAdapter(command);
+            
+            var ds = new DataSet();
+            // Заполняем Dataset
+            adapter.Fill(ds);
+
+            var headers = new List<string>();
+
+            foreach (DataColumn column in ds.Tables[0].Columns)
+            {
+                headers.Add(column.ColumnName);
+            }
+
+            var rows = new List<DataRow>();
+            foreach (DataRow row in ds.Tables[0].Rows)
+            {
+                rows.Add(row);
+            }
+
+            return new ExecuteResult(headers, rows.Select(x => x.ItemArray));
+        }
+
         public async Task<List<string>> GetNames(ConnectionsDocument document)
         {
             await using var sqlConnection = new SqlConnection(document.ConnectionString);
             await sqlConnection.OpenAsync();
 
-            var procedures = await QueryProcedures(sqlConnection, document.ConnectionInfo.Database);
+            var procedures = await QueryProcedures(sqlConnection);
 
             return procedures.Select(x => x.SpecificName).ToList();
         }
@@ -62,16 +107,11 @@ namespace FBA.Database.StoredProcedures.Providers
             return results;
         }
 
-        private async Task<List<Procedure>> QueryProcedures(SqlConnection connection, string dbName)
+        private async Task<List<Procedure>> QueryProcedures(SqlConnection connection)
         {
-            var query = "SELECT SPECIFIC_NAME FROM @db.INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = 'PROCEDURE'";
-            var dbParam = new SqlParameter("@db", dbName);
-
+            var query = "select specific_name from INFORMATION_SCHEMA.ROUTINES where ROUTINE_TYPE = 'PROCEDURE'";
             var command = new SqlCommand(query, connection);
-            command.Parameters.Add(dbParam);
-
             var results = new List<Procedure>();
-
             var reader = await command.ExecuteReaderAsync();
 
             try
@@ -91,6 +131,8 @@ namespace FBA.Database.StoredProcedures.Providers
             return results;
         }
     }
+
+    public record ExecuteResult(IEnumerable<string> Headers, IEnumerable<object[]> Values);
 
     public record Procedure(string SpecificName);
 

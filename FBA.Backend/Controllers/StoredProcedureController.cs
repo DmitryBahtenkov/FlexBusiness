@@ -39,5 +39,13 @@ namespace FBA.Backend.Controllers
         [HttpGet("by-connection/{connectionId}")]
         public async Task<List<StoredProcedureDocument>> GetByConnection(string connectionId)
             => await _storedProcedureService.GetByConnection(connectionId);
+
+        [HttpGet("names/{connectionId}")]
+        public async Task<List<string>> GetNames(string connectionId)
+            => await _storedProcedureService.GetNamesFromDatabase(connectionId);
+
+        [HttpPost("execute/{id}")]
+        public async Task<object> Execute(string id, [FromBody] Dictionary<string, string> parameters)
+         => await _storedProcedureService.Execute(id, parameters);
     }
 }

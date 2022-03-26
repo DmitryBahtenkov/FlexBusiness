@@ -22,7 +22,8 @@ namespace FBA.Database.Diagram.Services
             {
                 await sqlConnection.OpenAsync();
                 var query =
-                "select TABLE_NAME, COLUMN_NAME, ORDINAL_POSITION, DATA_TYPE, CHARACTER_MAXIMUM_LENGTH from INFORMATION_SCHEMA.COLUMNS";
+                "select INFORMATION_SCHEMA.COLUMNS.TABLE_NAME, COLUMN_NAME, ORDINAL_POSITION, DATA_TYPE, CHARACTER_MAXIMUM_LENGTH, INFORMATION_SCHEMA.TABLES.TABLE_TYPE from INFORMATION_SCHEMA.COLUMNS "
+                + "inner join INFORMATION_SCHEMA.TABLES on INFORMATION_SCHEMA.TABLES.TABLE_NAME = INFORMATION_SCHEMA.COLUMNS.TABLE_NAME;";
 
                 var command = new SqlCommand(query, sqlConnection);
                 var reader = await command.ExecuteReaderAsync();
@@ -35,7 +36,8 @@ namespace FBA.Database.Diagram.Services
                             reader.GetString(1),
                             (int) reader.GetValue(2),
                             reader.GetString(3),
-                            reader.GetValue(4) is int i ? i : null);
+                            reader.GetValue(4) is int i ? i : null,
+                            reader.GetString(5));
 
                         results.Add(item);
                     }
@@ -46,15 +48,16 @@ namespace FBA.Database.Diagram.Services
                 }
                 
                 var grouping = results
-                    .GroupBy(x => x.TableName)
+                    .GroupBy(x => (x.TableName, x.TableType))
                     .ToDictionary(x => x.Key, x => x.ToList());
 
                 foreach (var (table, columns) in grouping)
                 {
-                    var primaryKeys = await GetPrimaryKeysForTable(sqlConnection, table);
+                    var primaryKeys = await GetPrimaryKeysForTable(sqlConnection, table.TableName);
                     var tableDocument = new TableEmbeddedDocument
                     {
-                        Title = table,
+                        Title = table.TableName,
+                        Type = table.TableType,
                         Fields = columns.Select(x => new FieldEmbeddedDocument
                         {
                             Title = x.ColumnName,
@@ -62,7 +65,7 @@ namespace FBA.Database.Diagram.Services
                             Position = x.Position,
                             IsPrimaryKey = primaryKeys.Any(p => p.ColumnName == x.ColumnName)
                         }).ToList(),
-                        References = await GetReferencesForTable(sqlConnection, table)
+                        References = await GetReferencesForTable(sqlConnection, table.TableName)
                     };
 
                     tables.Add(tableDocument);
@@ -141,7 +144,8 @@ namespace FBA.Database.Diagram.Services
         string ColumnName,
         int Position,
         string DataType,
-        int? CharLength);
+        int? CharLength,
+        string TableType);
 
     record SpPkKeysResult(string ColumnName);
 }
