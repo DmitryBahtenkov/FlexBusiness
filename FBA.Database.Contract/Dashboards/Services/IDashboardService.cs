@@ -13,6 +13,6 @@ namespace FBA.Database.Contract.Dashboards.Services
         public Task<DashboardResponse> Update(string id, DashboardRequest request);
         public Task<DashboardResponse> ById(string id);
         public Task<List<DashboardResponse>> ByConnection(string connectionId);
-        public Task<List<DashboardResponse>> ByStoredProcedure(string connectionId);
+        public Task<List<DashboardResponse>> ByStoredProcedure(string storedProcedureId);
     }
 }
