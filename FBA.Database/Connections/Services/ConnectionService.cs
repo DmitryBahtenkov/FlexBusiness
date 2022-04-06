@@ -77,6 +77,7 @@ namespace FBA.Database.Services
         {
             return new ConnectionResponse()
             {
+                Id = document.Id,
                 ConnectionString = document.ConnectionString,
                 Host = document.ConnectionInfo.Host,
                 Login = document.ConnectionInfo.Login,

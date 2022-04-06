@@ -31,11 +31,6 @@ namespace FBA.Backend
                 options.SuppressModelStateInvalidFilter = true;
             });
             
-            services.Configure<ApiBehaviorOptions>(options =>
-            {
-                options.SuppressModelStateInvalidFilter = true;
-            });
-            
             services.AddMvc(options => options.Filters.Add<ValidateModelAttribute>());
             
             services.AddControllers();
