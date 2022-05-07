@@ -14,6 +14,7 @@ using FBA.Database.Contract.Diagram.Operations;
 using FBA.Database.Contract.Diagram.Services;
 using FBA.Database.Contract.StoredProcedures.Operations;
 using FBA.Database.Contract.StoredProcedures.Services;
+using FBA.Database.Contract.Tables;
 using FBA.Database.Dashboards.Operations;
 using FBA.Database.Dashboards.Services;
 using FBA.Database.Diagram.Operations;
@@ -23,6 +24,7 @@ using FBA.Database.Services;
 using FBA.Database.StoredProcedures.Operations;
 using FBA.Database.StoredProcedures.Providers;
 using FBA.Database.StoredProcedures.Services;
+using FBA.Database.Tables;
 using FBA.Repository;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -61,6 +63,8 @@ namespace FBA.DependencyInjection
             collection.AddScoped<IDashboardQueryOperations, DashboardQueryOperations>();
             collection.AddScoped<IDashboardWriteOperations, DashboardWriteOperations>();
             collection.AddScoped<IDashboardService, DashboardService>();
+
+            collection.AddScoped<ITableService, TableService>();
         }
     }
 }

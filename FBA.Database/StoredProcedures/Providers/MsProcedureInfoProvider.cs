@@ -132,8 +132,6 @@ namespace FBA.Database.StoredProcedures.Providers
         }
     }
 
-    public record ExecuteResult(IEnumerable<string> Headers, IEnumerable<object[]> Values);
-
     public record Procedure(string SpecificName);
 
     public record Parameter(string Name, byte Type, int Order)
