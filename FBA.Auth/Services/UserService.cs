@@ -49,7 +49,7 @@ namespace FBA.Auth.Services
             var user = await _userQueryOperations.ByLogin(request.Login);
             if (user is not null)
             {
-                var fio = "{user.SurName} {user.Name} {user.Patronymic}";
+                var fio = $"{user.SurName} {user.Name} {user.Patronymic}";
                 throw new BusinessException($"Такой пользователь уже существует: {fio}");
             }
         }
