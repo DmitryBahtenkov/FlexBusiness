@@ -165,7 +165,7 @@ namespace FBA.Database.Dashboards.Services
                         }
                     }
 
-                    return new { Results = aggregationResults};
+                    return new { Results = aggregationResults.Select(x => new[] {x.Name, x.Value})};
                 }
             }
             catch (InvalidCastException)
