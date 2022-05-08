@@ -14,8 +14,9 @@ namespace FBA.Database.Contract.Dashboards.Models.Request
         public string ConnectionId { get; set; }
         [Required(ErrorMessage = "Выберите хранимую процедуру")]
         public string StoredProcedureId { get; set; }
-        public string[] Columns { get; set; }
         [Required(ErrorMessage = "Выберите тип графика")]
         public ChartType ChartType { get; set; }
+        public DashboardSettings Settings { get; set; }
+        public Dictionary<string, string> Parameters { get; set; }
     }
 }

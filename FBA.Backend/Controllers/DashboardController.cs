@@ -43,5 +43,9 @@ namespace FBA.Backend.Controllers
         [HttpGet("by-procedure/{procedureId}")]
         public async Task<List<DashboardResponse>> ByProcedure(string procedureId)
             => await _dashboardService.ByStoredProcedure(procedureId);
+
+        [HttpGet("{id}/exetute")]
+        public async Task<object> ExecuteDashboard(string id)
+            => await _dashboardService.ExecuteDashboard(id);
     }
 }
