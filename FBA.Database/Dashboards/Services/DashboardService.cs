@@ -118,7 +118,7 @@ namespace FBA.Database.Dashboards.Services
                         linearResults.Add(new LinearResult(column, data));
                     }
 
-                    return linearResults;
+                    return new { Results = linearResults };
                 }
                 else
                 {
@@ -130,11 +130,9 @@ namespace FBA.Database.Dashboards.Services
                         var val = values.Select(x => x[index]);
                         var grouped = val.GroupBy(x => x).Select(x => new AggregationResult(x.Key.ToString(), x.Count()));
                         aggregationResults.AddRange(grouped);
-
-                        return aggregationResults;
                     }
 
-                    if (dashboard.Settings.Aggregation is Aggregation.Avg)
+                    else if (dashboard.Settings.Aggregation is Aggregation.Avg)
                     {
                         foreach (var c in dashboard.Settings.Columns)
                         {
@@ -145,7 +143,7 @@ namespace FBA.Database.Dashboards.Services
                         }
                     }
 
-                    if (dashboard.Settings.Aggregation is Aggregation.Max)
+                    else if (dashboard.Settings.Aggregation is Aggregation.Max)
                     {
                         foreach (var c in dashboard.Settings.Columns)
                         {
@@ -156,7 +154,7 @@ namespace FBA.Database.Dashboards.Services
                         }
                     }
 
-                    if (dashboard.Settings.Aggregation is Aggregation.Min)
+                    else if (dashboard.Settings.Aggregation is Aggregation.Min)
                     {
                         foreach (var c in dashboard.Settings.Columns)
                         {
@@ -167,7 +165,7 @@ namespace FBA.Database.Dashboards.Services
                         }
                     }
 
-                    return aggregationResults;
+                    return new { Results = aggregationResults};
                 }
             }
             catch (InvalidCastException)
