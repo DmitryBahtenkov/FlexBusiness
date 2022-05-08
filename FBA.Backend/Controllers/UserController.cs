@@ -1,5 +1,6 @@
 ﻿
 using System.Threading.Tasks;
+using FBA.Auth.Contract.Models;
 using FBA.Auth.Contract.Models.Requests;
 using FBA.Auth.Contract.Models.Responses;
 using FBA.Auth.Contract.Roles;
@@ -15,9 +16,13 @@ namespace FBA.Backend.Controllers
     public class UserController
     {
         private readonly IUserService _userService;
+		private readonly ICurrentUserService _currentUserService;
 
-        public UserController(IUserService userService)
+		public UserController(
+			IUserService userService,
+			ICurrentUserService currentUserService)
         {
+			_currentUserService = currentUserService;
             _userService = userService;
         }
 
@@ -32,5 +37,10 @@ namespace FBA.Backend.Controllers
         [HttpDelete("{id}")]
         public async Task<UserResponse> DeleteUser(string id)
             => await _userService.DeleteUser(id);
+
+        [HttpGet("current")]
+        [Authorize]
+        public UserDocument GetCurrent()
+            => _currentUserService.Get();
     }
 }
