@@ -17,12 +17,13 @@ namespace FBA.Database.StoredProcedures.Operations
         {
         }
 
-        public async Task<StoredProcedureDocument> UpdateInfo(string id, string name, string title)
+        public async Task<StoredProcedureDocument> UpdateInfo(string id, string name, string title, string direction)
         {
             var filter = F.ById(id);
             var update = U
                 .Set(x => x.Name, name)
-                .Set(x => x.Title, title);
+                .Set(x => x.Title, title)
+                .Set(x => x.Direction, direction);
 
             return await UpdateOne(filter, update);
         }

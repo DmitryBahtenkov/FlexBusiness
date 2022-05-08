@@ -10,7 +10,7 @@ namespace FBA.Tests.Mocks.Procedures
 {
     public class ProcedureWriteOperationsMock : WriteOperationsMock<StoredProcedureDocument>, IStoredProcedureWriteOperations
     {
-        public Task<StoredProcedureDocument> UpdateInfo(string id, string name, string title)
+        public Task<StoredProcedureDocument> UpdateInfo(string id, string name, string title, string direction)
         {
             var document = Storage.FirstOrDefault(x => x.Id == id);
 
@@ -18,6 +18,7 @@ namespace FBA.Tests.Mocks.Procedures
             {
                 document.Name = name;
                 document.Title = title;
+                document.Direction = direction;
             }
 
             return Task.FromResult(document);

@@ -42,7 +42,8 @@ namespace FBA.Database.StoredProcedures.Services
                 Id = IdGen.NewId(),
                 Name = request.Name,
                 Title = request.Title,
-                ConnectionId = connectionId
+                ConnectionId = connectionId,
+                Direction = request.Direction
             };
 
             var provider = _procedureInfoProviderFactory.GetProvider(connection.DbType);
@@ -112,7 +113,7 @@ namespace FBA.Database.StoredProcedures.Services
                 throw new NotFoundException();
             }
 
-            return await _storedProcedureWriteOperations.UpdateInfo(id, request.Name, request.Title);
+            return await _storedProcedureWriteOperations.UpdateInfo(id, request.Name, request.Title, request.Direction);
         }
 
         private async Task<ConnectionsDocument> GetConnection(string connectionId)

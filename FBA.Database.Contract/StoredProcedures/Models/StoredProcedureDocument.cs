@@ -9,6 +9,7 @@ namespace FBA.Database.Contract.StoredProcedures.Models
         public string Name { get; set; }
         public string Title { get; set; }
         public string ConnectionId { get; set; }
+        public string Direction { get; set; }
 
         public ParameterInfoEmbeddedDocument[] Parameters { get; set; }
     }

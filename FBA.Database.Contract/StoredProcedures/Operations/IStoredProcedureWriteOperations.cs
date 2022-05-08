@@ -10,6 +10,6 @@ namespace FBA.Database.Contract.StoredProcedures.Operations
     public interface IStoredProcedureWriteOperations : IWriteOperations<StoredProcedureDocument>
     {
         public Task<StoredProcedureDocument> UpdateParameters(string id, ParameterInfoEmbeddedDocument[] parameters);
-        public Task<StoredProcedureDocument> UpdateInfo(string id, string name, string title);
+        public Task<StoredProcedureDocument> UpdateInfo(string id, string name, string title, string direction);
     }
 }
