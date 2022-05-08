@@ -47,5 +47,9 @@ namespace FBA.Backend.Controllers
         [HttpPost("execute/{id}")]
         public async Task<object> Execute(string id, [FromBody] Dictionary<string, string> parameters)
          => await _storedProcedureService.Execute(id, parameters);
+
+        [HttpGet("directions")]
+         public async Task<List<string>> GetDirections()
+            => await _storedProcedureService.GetDirections();
     }
 }

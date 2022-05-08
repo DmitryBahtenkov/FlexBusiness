@@ -97,6 +97,13 @@ namespace FBA.Database.StoredProcedures.Services
             return await _storedProcedureQueryOperations.ByConnection(connectionId);
         }
 
+        public async Task<List<string>> GetDirections()
+        {
+            var procedures = await _storedProcedureQueryOperations.GetAll();
+            
+            return procedures.Select(x => x.Direction).Distinct().ToList();
+        }
+
         public async Task<List<string>> GetNamesFromDatabase(string connectionId)
         {
             var connection = await GetConnection(connectionId);
