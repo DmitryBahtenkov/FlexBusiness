@@ -38,9 +38,17 @@ namespace FBA.Database.Tables
             }
             else
             {
-                var sb = new StringBuilder();
-                sb.Append($"select * from {table} where ");
                 var parameters = new List<SqlParameter>(selectQuery.Fields.Count + 2);
+                var sb = new StringBuilder();
+
+                sb.Append("select");
+
+                if(selectQuery.Limit.HasValue)
+                {
+                    sb.Append($" top {selectQuery.Limit}");
+                }
+
+                sb.Append($" * from {table} where ");
 
                 sb.Append(string.Join("AND", selectQuery.Fields.Select(q => $"{q.Field} {q.Operator} @{q.Field}Param")));
                 foreach (var query in selectQuery.Fields)
@@ -52,11 +60,6 @@ namespace FBA.Database.Tables
                 {
                     sb.Append($" order by {selectQuery.OrderField} {selectQuery.OrderType.ToString().ToUpper()}");
                 }
-
-                // if (selectQuery.Limit.HasValue)
-                // {
-                //     sb.Append($" limit {selectQuery.Limit}");
-                // }
 
                 command = new SqlCommand(sb.ToString(), sqlConnection);
                 command.Parameters.AddRange(parameters.ToArray());
