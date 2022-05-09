@@ -1,7 +1,9 @@
 ﻿using System.Threading.Tasks;
+using FBA.Auth.Contract.Roles;
 using FBA.Database.Contract.Connections.Models.Requests;
 using FBA.Database.Contract.Connections.Models.Responses;
 using FBA.Database.Contract.Connections.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FBA.Backend.Controllers
@@ -26,14 +28,17 @@ namespace FBA.Backend.Controllers
             => await _connectionsService.Get(id);
 
         [HttpPost]
+        [Authorize(Roles = RoleTags.Admin)]
         public async Task<ConnectionResponse> Create([FromBody] CreateConnectionRequest request)
             => await _connectionsService.Create(request);
 
         [HttpPut("{id}")]
+        [Authorize(Roles = RoleTags.Admin)]
         public async Task<ConnectionResponse> Update(string id, [FromBody] UpdateConnectionRequest request)
             => await _connectionsService.Update(id, request);
         
         [HttpDelete("{id}")]
+        [Authorize(Roles = RoleTags.Admin)]
         public async Task<ConnectionResponse> Update(string id)
             => await _connectionsService.Delete(id);
     }

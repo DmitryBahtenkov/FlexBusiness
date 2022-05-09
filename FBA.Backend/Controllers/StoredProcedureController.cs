@@ -2,9 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FBA.Auth.Contract.Roles;
 using FBA.Database.Contract.StoredProcedures.Models;
 using FBA.Database.Contract.StoredProcedures.Models.Requests;
 using FBA.Database.Contract.StoredProcedures.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FBA.Backend.Controllers
@@ -21,10 +23,12 @@ namespace FBA.Backend.Controllers
 		}
 
         [HttpPost("{connectionId}")]
+        [Authorize(Roles = RoleTags.Admin)]
         public async Task<StoredProcedureDocument> Create(string connectionId, ProcedureRequest request)
             => await _storedProcedureService.Create(connectionId, request);
 
         [HttpPut("{id}")]
+        [Authorize(Roles = RoleTags.Admin)]
         public async Task<StoredProcedureDocument> Update(string id, ProcedureRequest request)
             => await _storedProcedureService.Update(id, request);
 
