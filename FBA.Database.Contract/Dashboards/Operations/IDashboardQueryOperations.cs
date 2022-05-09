@@ -7,7 +7,7 @@ namespace FBA.Database.Contract.Dashboards.Operations
 {
     public interface IDashboardQueryOperations : IQueryOperations<DashboardDocument>
     {
-        public Task<List<DashboardDocument>> ByConnection(string connectionId);
-        public Task<List<DashboardDocument>> ByStoredProcedure(string storedProcedure);
+        public Task<List<DashboardDocument>> ByConnection(string connectionId, string userId = null);
+        public Task<List<DashboardDocument>> ByStoredProcedure(string storedProcedure, string userId = null);
     }
 }

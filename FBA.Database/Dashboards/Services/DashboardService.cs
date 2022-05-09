@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FBA.Auth.Contract.Services;
 using FBA.CrossCutting.Contract.Exceptions;
 using FBA.Database.Contract.Connections.Operations;
 using FBA.Database.Contract.Dashboards.Models;
@@ -23,6 +24,7 @@ namespace FBA.Database.Dashboards.Services
         private readonly IDashboardWriteOperations _dashboardWriteOperations;
         private readonly IStoredProcedureService _storedProcedureService;
         private readonly ISettingsQueryOperations _settingsQueryOperations;
+		private readonly ICurrentUserService _currentUserService;
 
 
         public DashboardService(
@@ -30,8 +32,10 @@ namespace FBA.Database.Dashboards.Services
             IDashboardWriteOperations dashboardWriteOperations,
             IStoredProcedureQueryOperations storedProcedureQueryOperations,
             ISettingsQueryOperations settingsQueryOperations,
-            IStoredProcedureService storedProcedureService)
+            IStoredProcedureService storedProcedureService,
+			ICurrentUserService currentUserService)
         {
+			_currentUserService = currentUserService;
             _storedProcedureService = storedProcedureService;
             _settingsQueryOperations = settingsQueryOperations;
             _storedProcedureQueryOperations = storedProcedureQueryOperations;
@@ -85,7 +89,8 @@ namespace FBA.Database.Dashboards.Services
                 StoredProcedureId = request.StoredProcedureId,
                 ChartType = request.ChartType,
                 Settings = request.Settings,
-                Parameters = request.Parameters
+                Parameters = request.Parameters,
+                UserId = _currentUserService.Get().Id
             };
 
             document = await _dashboardWriteOperations.Create(document);
@@ -199,7 +204,8 @@ namespace FBA.Database.Dashboards.Services
                 StoredProcedureId = dashboardDocument.StoredProcedureId,
                 Settings = dashboardDocument.Settings,
                 ChartType = dashboardDocument.ChartType,
-                Parameters = dashboardDocument.Parameters
+                Parameters = dashboardDocument.Parameters,
+                UserId = dashboardDocument.UserId
             };
         }
     }
