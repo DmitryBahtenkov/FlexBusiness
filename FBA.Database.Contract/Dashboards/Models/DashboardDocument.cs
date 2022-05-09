@@ -12,12 +12,12 @@ namespace FBA.Database.Contract.Dashboards.Models
         public bool IsArchived { get; set; }
         public string ConnectionId { get; set; }
         public string StoredProcedureId { get; set; }
-        [JsonConverter(typeof(JsonStringEnumConverter))]
         public ChartType ChartType { get; set; }
         public DashboardSettings Settings { get; set; }
         public Dictionary<string, string> Parameters { get; set; }
     }
 
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum ChartType
     {
         Pie,
@@ -25,6 +25,7 @@ namespace FBA.Database.Contract.Dashboards.Models
         Lineal
     }
 
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum Aggregation
     {
         CountUnique,
