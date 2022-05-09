@@ -34,7 +34,7 @@ namespace FBA.Database.Tables
             SqlCommand command = null;
             if (selectQuery is null)
             {
-                command = new SqlCommand($"select * from {table} limit 100", sqlConnection);
+                command = new SqlCommand($"select top 100 * from {table}", sqlConnection);
             }
             else
             {

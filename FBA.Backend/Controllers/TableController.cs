@@ -24,6 +24,12 @@ namespace FBA.Backend.Controllers
         {
             return await _tableService.ExecuteSelect(connectionId, table, query);
         }
+
+        [HttpGet("{connectionId}/select/{table}")]
+        public async Task<ExecuteResult> ExecuteSelect(string connectionId, string table)
+        {
+            return await _tableService.ExecuteSelect(connectionId, table);
+        }
         
         [HttpGet("{connectionId}/tables")]
         public async Task<List<TableInfo>> GetTables(string connectionId)
