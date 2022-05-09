@@ -13,5 +13,6 @@ namespace FBA.Database.Contract.SavedProcedures.Services
         public Task<SavedProcedureDocument> Create(SavedProcedureRequest request);
         public Task<ExecuteResult> Execute(string id);
         public Task<SavedProcedureDocument> SetArchived(string id);
+        public Task<List<SavedProcedureDocument>> GetAll();
     }
 }

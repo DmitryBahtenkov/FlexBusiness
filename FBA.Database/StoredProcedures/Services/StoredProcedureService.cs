@@ -53,7 +53,7 @@ namespace FBA.Database.StoredProcedures.Services
             return await _storedProcedureWriteOperations.Create(document);
         }
 
-        public async Task<object> Execute(string id, Dictionary<string, string> parameters)
+        public async Task<ExecuteResult> Execute(string id, Dictionary<string, string> parameters)
         {
             var procedure = await Get(id);
             if(procedure is null)

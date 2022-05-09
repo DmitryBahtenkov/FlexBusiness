@@ -13,5 +13,6 @@ namespace FBA.Database.Contract.SavedProcedures.Models
         public string StoredProcedureId { get; set; }
         public Dictionary<string, string> Parameters { get; set; }
         public bool IsArchived { get; set; }
+        public string UserId { get; set; }
     }
 }

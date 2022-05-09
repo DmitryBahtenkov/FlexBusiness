@@ -13,7 +13,7 @@ namespace FBA.Database.StoredProcedures.Providers
 {
     public class MsProcedureInfoProvider : IProcedureInfoProvider
     {
-        public async Task<object> ExecuteStoredProcedure(
+        public async Task<ExecuteResult> ExecuteStoredProcedure(
             ConnectionsDocument document,
             string procedureName, 
             Dictionary<string, string> parameters)

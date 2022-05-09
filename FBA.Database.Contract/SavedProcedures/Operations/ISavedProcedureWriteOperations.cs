@@ -9,6 +9,6 @@ namespace FBA.Database.Contract.SavedProcedures.Operations
 {
     public interface ISavedProcedureWriteOperations : IWriteOperations<SavedProcedureDocument>
     {
-        
+        public Task<SavedProcedureDocument> Archive(string id);
     }
 }

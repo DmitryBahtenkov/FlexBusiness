@@ -9,6 +9,6 @@ namespace FBA.Database.Contract.SavedProcedures.Operations
 {
     public interface ISavedProcedureQueryOperations : IQueryOperations<SavedProcedureDocument>
     {
-        
+        public Task<List<SavedProcedureDocument>> ByUser(string userId);
     }
 }
