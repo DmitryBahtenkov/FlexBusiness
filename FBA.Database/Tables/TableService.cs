@@ -87,11 +87,13 @@ namespace FBA.Database.Tables
             return new ExecuteResult(headers, rows.Select(x => x.ItemArray));
         }
 
-        public async Task<List<string>> GetTables(string connectionId)
+        public async Task<List<TableInfo>> GetTables(string connectionId)
         {
             var diagram = await _diagramService.GetByConnection(connectionId);
 
-            return diagram.Tables.Select(x => x.Title).ToList();
+            return diagram.Tables
+                .Select(x => new TableInfo(x.Title, x.Type))
+                .ToList();
         }
     }
 }

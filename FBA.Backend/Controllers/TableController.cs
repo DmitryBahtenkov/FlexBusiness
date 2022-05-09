@@ -26,7 +26,7 @@ namespace FBA.Backend.Controllers
         }
         
         [HttpGet("{connectionId}/tables")]
-        public async Task<List<string>> GetTables(string connectionId)
+        public async Task<List<TableInfo>> GetTables(string connectionId)
         {
             return await _tableService.GetTables(connectionId);
         }
